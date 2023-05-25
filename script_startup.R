@@ -5,8 +5,14 @@ start_year <- 2008
 end_year <- 2023
 num_years <- end_year - start_year +1
 
-
-
+if(!dir.exists("./data"))
+{
+  dir.create("./data")
+}
+if(!dir.exists("./data/yearly"))
+{
+  dir.create("./data/yearly")
+}
 
 journals <- read_excel("journals.xlsx")
 

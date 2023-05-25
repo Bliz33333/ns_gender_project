@@ -46,11 +46,7 @@ if(!file.exists("./data/trimmed_data"))
 
 
 
-# 2166694624 bytes
-# trimmed_data <- trimmed_data[, PubDate := as.integer(PubDate)]
-# object.size(trimmed_data)
-# trimmed_data <- trimmed_data[, Journal := as.factor(Journal)]
-# object.size(trimmed_data)
+
 
 # TODO: deal with case where >1 affiliation
 extracted <- 0
@@ -169,43 +165,62 @@ if(!file.exists("./data/tabulated_data"))
 }
 
 
-#--------------------
 
-load("./data/yearly/JAMA_2018")
-for (i in 1:length(JAMA_2018)) {
-  if(JAMA_2018[[i]][["MedlineCitation"]][["PMID"]][["text"]] == 29710162)
-  {
-    print(i)
-  }
+if(file.exists("./data/tabulated_data_recoded"))
+{
+  load(file = "./data/tabulated_data_recoded")
+} else {
+  
+  # object.size(tabulated_data)
+  tabulated_data <- tabulated_data[, PMID := as.integer(PMID)]
+  # object.size(tabulated_data)
+  tabulated_data <- tabulated_data[, PubDate := as.integer(PubDate)]
+  # object.size(tabulated_data)
+  tabulated_data <- tabulated_data[, Journal := as.factor(Journal)]
+  # object.size(tabulated_data)
+  
+  save(tabulated_data, file = "./data/tabulated_data_recoded")
   
 }
 
-temp <- JAMA_2018[[1112]]
 
-
-# -----------------
-(Neurosurgery_2008[[37]][["MedlineCitation"]][["Article"]][["PublicationTypeList"]] %>% unlist())["PublicationType.text"]
-
-
-temp <- 
-  lapply(mini, trim) %>% setDT()
-
-temp <- data.table(do.call(rbind, lapply(mini, trim)))
-
-colnames(temp) <- as.character(1:10)
-
-data.table(do.call(rbind, lapply(get(file_names[i,j]), trim)))
-load(file_locs[1,1])
-
-mini <- Neurosurgery_2008[1:10]
-# full_raw_data <- list()
-# for(i in 1:nrow(file_locs))
-# {
-#   for(j in 1:ncol(file_locs))
+#--------------------
+# 
+# load("./data/yearly/JAMA_2018")
+# for (i in 1:length(JAMA_2018)) {
+#   if(JAMA_2018[[i]][["MedlineCitation"]][["PMID"]][["text"]] == 29710162)
 #   {
-#     load(file_locs[i,j])
-#     full_raw_data <- c(full_raw_data,get(file_names[i,j]))
-#     rm(list = paste0(file_names[i,j]))
-#     print(file_names[i,j])
+#     print(i)
 #   }
+#   
 # }
+# 
+# temp <- JAMA_2018[[1112]]
+# 
+# 
+# # -----------------
+# (Neurosurgery_2008[[37]][["MedlineCitation"]][["Article"]][["PublicationTypeList"]] %>% unlist())["PublicationType.text"]
+# 
+# 
+# temp <- 
+#   lapply(mini, trim) %>% setDT()
+# 
+# temp <- data.table(do.call(rbind, lapply(mini, trim)))
+# 
+# colnames(temp) <- as.character(1:10)
+# 
+# data.table(do.call(rbind, lapply(get(file_names[i,j]), trim)))
+# load(file_locs[1,1])
+# 
+# mini <- Neurosurgery_2008[1:10]
+# # full_raw_data <- list()
+# # for(i in 1:nrow(file_locs))
+# # {
+# #   for(j in 1:ncol(file_locs))
+# #   {
+# #     load(file_locs[i,j])
+# #     full_raw_data <- c(full_raw_data,get(file_names[i,j]))
+# #     rm(list = paste0(file_names[i,j]))
+# #     print(file_names[i,j])
+# #   }
+# # }
