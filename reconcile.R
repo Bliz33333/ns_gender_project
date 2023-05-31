@@ -20,6 +20,13 @@ gender_table <-
   gender_table %>% 
   filter(!duplicated(Name))
 
+if(!file.exists("./data/prev_gender_table"))
+{
+  save(gender_table, file = "./data/prev_gender_table")
+}
+
+# Probably unneeded
+
 forename_gender_table <-
   gender_table
 

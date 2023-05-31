@@ -66,7 +66,7 @@ extract_author <- function(auths)
   
   
   num_auths <- (names(auths) == "Author")
-  auths <- auths[num_auths]
+  # auths <- auths[num_auths]
   num_auths <- sum(num_auths)
   
   while(!is.null(auths[[num_auths]][["CollectiveName"]]))
@@ -97,17 +97,38 @@ extract_author <- function(auths)
   auth_data$FA_LastName <- FA[["LastName"]]
   auth_data$FA_ForeName <- FA[["ForeName"]]
   
-  FA_aff <- FA[["AffiliationInfo"]][["Affiliation"]]
+  FA_afs <- (names(FA) == "AffiliationInfo")
+  FA_num_afs <- sum(FA_afs)
+  FA_afs <- which(FA_afs)
+  
+  FA_aff <- ""
+  for (i in FA_afs) {
+    if(grepl(pattern = "!", x = FA[[i]][["Affiliation"]], fixed = T))
+    {
+      print("AFFILIATION CONTAINS INTERROBANG")
+    }
+    
+    if(FA_aff == "")
+    {
+      FA_aff <- FA[[i]][["Affiliation"]]
+    } else {
+      FA_aff <- paste(FA_aff, FA[[i]][["Affiliation"]] ,sep = "!")
+    }
+    
+  }
+  
+  # FA_aff <- FA[["AffiliationInfo"]][["Affiliation"]]
   if(!is.null(FA_aff))
   {
     auth_data$FA_Affiliation <- FA_aff
   }
   
-  
-  if(FA[["AffiliationInfo"]] %>% length() > 1)
-  {
-    print("MORE THAN ONE AFFILIATION: ONLY FIRST ONE GRABBED")
-  }
+  # 
+  # if(FA[["AffiliationInfo"]] %>% length() > 1)
+  # {
+  #   print("MORE THAN ONE AFFILIATION: ONLY FIRST ONE GRABBED")
+  # }
+  # 
   
   #remove if no issues
   if((is.null(auth_data$FA_LastName)) & (is.null(auth_data$FA_ForeName)))
@@ -126,16 +147,36 @@ extract_author <- function(auths)
   auth_data$LA_ForeName <- LA[["ForeName"]]
   
   
-  LA_aff <- LA[["AffiliationInfo"]][["Affiliation"]]
+  LA_afs <- (names(LA) == "AffiliationInfo")
+  LA_num_afs <- sum(LA_afs)
+  LA_afs <- which(LA_afs)
+  
+  LA_aff <- ""
+  for (i in LA_afs) {
+    if(grepl(pattern = "!", x = LA[[i]][["Affiliation"]], fixed = T))
+    {
+      print("AFFILIATION CONTAINS INTERROBANG")
+    }
+    
+    if(LA_aff == "")
+    {
+      LA_aff <- LA[[i]][["Affiliation"]]
+    } else {
+      LA_aff <- paste(LA_aff, LA[[i]][["Affiliation"]] ,sep = "!")
+    }
+    
+  }
+
+  # LA_aff <- LA[["AffiliationInfo"]][["Affiliation"]]
   if(!is.null(LA_aff))
   {
     auth_data$LA_Affiliation <- LA_aff
   }
-  
-  if(LA[["AffiliationInfo"]] %>% length() > 1)
-  {
-    print("MORE THAN ONE AFFILIATION: ONLY FIRST ONE GRABBED")
-  }
+  # 
+  # if(LA[["AffiliationInfo"]] %>% length() > 1)
+  # {
+  #   print("MORE THAN ONE AFFILIATION: ONLY FIRST ONE GRABBED")
+  # }
   
   #remove if no issues
   if((is.null(auth_data$LA_LastName)) & (is.null(auth_data$LA_ForeName)))
