@@ -1,4 +1,4 @@
-p_load(tidyverse, data.table)
+p_load(tidyverse, data.table, stringi)
 
 load(file = "./data/tabulated_data_recoded")
 
@@ -19,6 +19,21 @@ gender_table <-
 gender_table <- 
   gender_table %>% 
   filter(!duplicated(Name))
+
+#90% accuracy+ filter
+gender_table <- 
+  gender_table %>% 
+  filter(Accuracy >= 90)
+
+#cleaning: remove leading/trailing whitespace?
+#lowercase + to ascii
+#link to changes in abns_analysis
+gender_table <-
+  gender_table %>% 
+  mutate(Name = stri_trans_general(str = Name, id = "Latin-ASCII")) %>% 
+  mutate(Name = tolower(Name)) %>% 
+  mutate(Name = trimws(Name))
+
 
 if(!file.exists("./data/prev_gender_table"))
 {
