@@ -2,7 +2,7 @@ library(pacman)
 p_load(tidyverse, readxl)
 
 start_year <- 2008
-end_year <- 2023
+end_year <- 2024
 num_years <- end_year - start_year +1
 
 if(!dir.exists("./data"))
