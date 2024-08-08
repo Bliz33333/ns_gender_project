@@ -157,7 +157,7 @@ sum(paper_genders$PMID == fullname_data_trim$PMID)
 nrow(paper_genders)
 
 #i = 5100
-for (i in 5100:nrow(abns_gender_filtered)) 
+for (i in 1:nrow(abns_gender_filtered)) 
 {
   fname <- abns_gender_filtered$`First Name`[i] %>% unlist()
   lname <- abns_gender_filtered$`Last Name`[i] %>% unlist()

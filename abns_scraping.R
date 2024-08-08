@@ -18,7 +18,7 @@ headers = c(
 
 data_raw <- c('{"operationName":"paginatedNeurosurgeons","variables":{"clientName":"ABNS","input":{"first":',',"skip":','}},"query":"query paginatedNeurosurgeons($clientName: String!, $input: PaginatedNeurosurgeonsInput!) {\\n  paginatedNeurosurgeons(clientName: $clientName, input: $input) {\\n    total\\n    data {\\n      id\\n      firstName\\n      lastName\\n      profile {\\n        id\\n        suffix\\n        associationPublicStatus\\n        userType\\n        profilePictureURL\\n        addresses {\\n          id\\n          street1\\n          street2\\n          city\\n          state\\n          country\\n          zipCode\\n          primary\\n          __typename\\n        }\\n        contactNumbers {\\n          id\\n          contactNumber\\n          primary\\n          __typename\\n        }\\n        userCertifications {\\n          id\\n          beginDate\\n          endDate\\n          status\\n          certification {\\n            id\\n            name\\n            sortOrder\\n            hideEndDateInFAP\\n            ifActiveShowFirstDayOfCurrentYearInFAP\\n            __typename\\n          }\\n          recertifications {\\n            id\\n            cycleBeginDate\\n            cycleEndDate\\n            __typename\\n          }\\n          __typename\\n        }\\n        __typename\\n      }\\n      __typename\\n    }\\n    __typename\\n  }\\n}\\n"}')
 
-num_pull <- 500
+num_pull <- 50
 skip <- 0
 
 res <- httr::POST(url = "https://abns-fan.abns.org/", httr::add_headers(.headers=headers), body = paste0(data_raw[1],num_pull,data_raw[2],skip,data_raw[3]))
@@ -32,7 +32,7 @@ for (i in seq(num_pull,num_results, by = num_pull))
   temp_data <- (temp_request[["content"]] %>% rawToChar() %>% fromJSON())[["data"]][["paginatedNeurosurgeons"]][["data"]]
   res_data <- c(res_data, temp_data)
   print(i)
-  Sys.sleep(5)
+  Sys.sleep(1)
 }
 
 first_names <- character()
@@ -42,6 +42,9 @@ first_names <- sapply(res_data, "[[", "firstName")
 last_names <- sapply(res_data, "[[", "lastName")
 
 abns_tibble <- tibble(cbind(first_names, last_names))
+abns_tibble <- matrix(data = unlist(abns_tibble), nrow = nrow(abns_tibble), ncol = 2) %>% as.data.frame() %>% as_tibble()
+colnames(abns_tibble) <- c("ForeName","LastName")
+
 
 if(!file.exists("./data/abns_raw"))
 {

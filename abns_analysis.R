@@ -5,8 +5,7 @@ load(file = "./data/abns_raw")
 load(file = "./data/prev_gender_table")
 
 tabulated_data <- tibble(tabulated_data)
-abns_tibble <- matrix(data = unlist(abns_tibble), nrow = nrow(abns_tibble), ncol = 2) %>% as.data.frame() %>% as_tibble()
-colnames(abns_tibble) <- c("ForeName","LastName")
+
 
 fore_name_clean_indiv <- function(fname)
 {
