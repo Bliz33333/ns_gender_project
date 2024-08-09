@@ -1,4 +1,6 @@
-#p_load(epiDisplay)
+p_load(epiDisplay)
+
+FIX_ME <- 1711
 
 #al de is this name 1711
 filtered_index <- FIX_ME
@@ -57,6 +59,7 @@ analysis_data <-
   mutate(Journal = as.factor(Journal)) %>% 
   mutate(j_type = as.factor(j_type))
   
+save(analysis_data, file = "./data/analysis_data")
 
 fa_data <-
   analysis_data %>% 
@@ -101,14 +104,14 @@ with(summary(my_reg), 1 - deviance/null.deviance)
 gendered_paper_data_filtered %>% 
   filter(fa_gender != "none") %>%
   filter(PubDate >= 2010) %>%
-  filter(PubDate <= 2022) %>%
+  filter(PubDate <= 2023) %>%
   #  filter(la_gender == "female") %>% 
   ggplot(aes(x = PubDate, fill = fa_gender)) +
   geom_bar(position = position_dodge())
 
 gendered_paper_data_filtered %>% 
   filter(PubDate >= 2010) %>%
-  filter(PubDate <= 2022) %>%
+  filter(PubDate <= 2023) %>%
   filter(la_gender != "none") %>% 
   #  filter(la_gender == "female") %>% 
   ggplot(aes(x = PubDate, fill = la_gender)) +
@@ -116,7 +119,7 @@ gendered_paper_data_filtered %>%
 
 gendered_paper_data_filtered %>% 
   filter(PubDate >= 2010) %>%
-  filter(PubDate <= 2022) %>%
+  filter(PubDate <= 2023) %>%
   filter(fa_gender != "none") %>% 
   #  filter(la_gender == "female") %>% 
   ggplot(aes(x = PubDate, fill = fa_gender)) +
@@ -124,7 +127,7 @@ gendered_paper_data_filtered %>%
 
 gendered_paper_data_filtered %>% 
   filter(PubDate >= 2010) %>%
-  filter(PubDate <= 2022) %>%
+  filter(PubDate <= 2023) %>%
   filter(la_gender != "none") %>% 
   #  filter(la_gender == "female") %>% 
   ggplot(aes(x = PubDate, fill = la_gender)) +
@@ -142,7 +145,7 @@ gendered_paper_data_filtered %>%
 
 gendered_paper_data_filtered %>% 
   filter(PubDate >= 2010) %>%
-  filter(PubDate <= 2022) %>%
+  filter(PubDate <= 2023) %>%
   filter(fa_gender != "none") %>% 
   select(PubDate, fa_gender) %>% 
   table() %>% 
@@ -161,7 +164,7 @@ cor(fa_year_table_male$PubDate, fa_year_table_male$Freq, method = "spearman") ->
 
 gendered_paper_data_filtered %>% 
   filter(PubDate >= 2010) %>%
-  filter(PubDate <= 2022) %>%
+  filter(PubDate <= 2023) %>%
   filter(la_gender != "none") %>% 
   select(PubDate, la_gender) %>% 
   table() %>% 
