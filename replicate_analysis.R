@@ -1,4 +1,6 @@
 p_load(epiDisplay)
+load(file = "./data/gendered_paper_data")
+
 
 FIX_ME <- 1711
 
@@ -59,7 +61,7 @@ analysis_data <-
   mutate(Journal = as.factor(Journal)) %>% 
   mutate(j_type = as.factor(j_type))
   
-save(analysis_data, file = "./data/analysis_data")
+#save(analysis_data, file = "./data/analysis_data")
 
 fa_data <-
   analysis_data %>% 
@@ -89,9 +91,13 @@ summary(my_reg)
 # my_reg <- glm(la_gender ~ PubDate + j_type, data = la_data, family=binomial(link=logit))
 # summary(my_reg)
 
+both_data$fa_gender <- factor(both_data$fa_gender, levels = c("male", "female"))
+both_data$la_gender <- factor(both_data$la_gender, levels = c("male", "female"))
+
 my_reg <- glm(fa_gender ~ PubDate + Journal + la_gender, data = both_data, family=binomial(link=logit))
 summary(my_reg)
-logistic.display(my_reg)
+logistic.display(my_reg) -> temp
+write.csv(temp, file = "./data/odds_ratios.csv")
 with(summary(my_reg), 1 - deviance/null.deviance)
 
 my_reg <- glm(fa_gender ~ PubDate + j_type + la_gender, data = both_data, family=binomial(link=logit))
