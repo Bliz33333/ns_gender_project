@@ -1,18 +1,26 @@
-
-abns_gendering <- abns_tibble
-
-
-abns_gendering <- matrix(data = unlist(abns_tibble), nrow = nrow(abns_tibble), ncol = 2)
-
-abns_gendering <- as_tibble(abns_gendering)
+p_load(stringr, stringi)
+load(file = "./data/tabulated_data_recoded")
+load(file = "./data/abns_names")
 
 
-abns_gendering[,3] <- "US"
+fullname_data <-
+  tabulated_data %>%
+  mutate(FA_FullName = paste(FA_ForeName,FA_LastName)) %>% 
+  mutate(FA_FullName = stri_trans_general(str = FA_FullName, id = "Latin-ASCII")) %>% 
+  mutate(FA_FullName = tolower(FA_FullName)) %>% 
+  mutate(FA_FullName = trimws(FA_FullName)) %>% 
+  mutate(LA_FullName = paste(LA_ForeName,LA_LastName)) %>% 
+  mutate(LA_FullName = stri_trans_general(str = LA_FullName, id = "Latin-ASCII")) %>% 
+  mutate(LA_FullName = tolower(LA_FullName)) %>% 
+  mutate(LA_FullName = trimws(LA_FullName))
 
-colnames(abns_gendering) <- c("First Name", "Last Name", "Country")
-
-
-write_csv(abns_gendering, file = "./data/abns_gendering.csv")
+#get list of abns names to submit to gender API
+# abns_gendering <- abns_tibble
+# abns_gendering <- matrix(data = unlist(abns_tibble), nrow = nrow(abns_tibble), ncol = 2)
+# abns_gendering <- as_tibble(abns_gendering)
+# abns_gendering[,3] <- "US"
+# colnames(abns_gendering) <- c("First Name", "Last Name", "Country")
+# write_csv(abns_gendering, file = "./data/abns_gendering.csv")
 
 
 abns_gendering_enriched <- read_csv("data/abns_gendering_enriched.csv")
@@ -83,6 +91,14 @@ fullname_data_trim <-
   fullname_data %>% 
   select(PMID, FA_FullName, LA_FullName)
 
+remove(abns_gendering_enriched)
+remove(abns_tibble)
+remove(fullname_data)
+gc()
+
+#Uneeded??---------
+
+
 for (i in 1:nrow(fullname_data_trim)) {
   
   fullname_data_trim$FA_FullName[i] <- na_na_cleaner(fullname_data_trim$FA_FullName[i])
@@ -93,6 +109,7 @@ for (i in 1:nrow(fullname_data_trim)) {
     print(i)
   }
 }
+#-------------
 
 temp <- (fullname_data_trim$FA_FullName == "na na")
 fullname_data_trim$FA_FullName[temp] <- NA
@@ -156,7 +173,7 @@ paper_genders <-
 sum(paper_genders$PMID == fullname_data_trim$PMID)
 nrow(paper_genders)
 
-#i = 5100
+#i = 0
 for (i in 1:nrow(abns_gender_filtered)) 
 {
   fname <- abns_gender_filtered$`First Name`[i] %>% unlist()
@@ -235,6 +252,7 @@ if(!file.exists("./data/gendered_paper_data"))
   save(gendered_paper_data, file = "./data/gendered_paper_data")
 }
 
+#---------------------
 
 gendered_paper_data %>% 
   filter(fa_gender != "none") %>%
