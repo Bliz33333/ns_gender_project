@@ -65,9 +65,9 @@ collapse_others <- function(my_dat, keeps)
 
 
 
-#formula <- y ~ x
+formula <- y ~ x
 
-
+#first author absolute, gender split
 fa_sum %>% 
   collapse_others(c("Year of Publication","First Author Gender")) %>% 
   ggplot(aes(x = `Year of Publication`, y = `Number of Articles`, shape = `First Author Gender`)) +
@@ -76,13 +76,59 @@ fa_sum %>%
               formula = y ~ x, 
               geom = "smooth") +
   geom_point() +
-  ylim(0, NA)
+  ylim(0, NA) +
+  scale_x_continuous(breaks = 2010:2023)
   # stat_regline_equation(
   #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
   #   formula = formula
   # )
 
+fa_sum %>% 
+  collapse_others(c("Year of Publication","First Author Gender")) %>% 
+  filter(`First Author Gender` == "Female") %>% 
+  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
+  summary()
 
+fa_sum %>% 
+  collapse_others(c("Year of Publication","First Author Gender")) %>% 
+  filter(`First Author Gender` == "Female") %>% 
+  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
+  confint()
+
+fa_sum %>% 
+  collapse_others(c("Year of Publication","First Author Gender")) %>% 
+  filter(`First Author Gender` == "Male") %>% 
+  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
+  summary()
+
+fa_sum %>% 
+  collapse_others(c("Year of Publication","First Author Gender")) %>% 
+  filter(`First Author Gender` == "Male") %>% 
+  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
+  confint()
+
+
+#first author absolute, sum
+fa_sum %>% 
+  collapse_others(c("Year of Publication")) %>% 
+  ggplot(aes(x = `Year of Publication`, y = `Number of Articles`)) +
+  theme_classic() +
+  stat_smooth(method = "lm", 
+              formula = y ~ x, 
+              geom = "smooth") +
+  geom_point(shape = 15) +
+  ylim(0, NA) +
+  scale_x_continuous(breaks = 2010:2023) 
+# stat_regline_equation(
+#   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
+#   formula = formula
+# )
+fa_sum %>% 
+  collapse_others(c("Year of Publication")) %>% 
+  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
+  summary()
+
+#first author relative, gender split
 fa_sum %>% 
   collapse_others(c("Year of Publication","First Author Gender")) %>% 
   group_by(`Year of Publication`) %>% 
@@ -96,8 +142,29 @@ fa_sum %>%
               formula = y ~ x, 
               geom = "smooth") +
   geom_point() +
-  ylim(0, NA)
+  ylim(0, NA) +
+  scale_x_continuous(breaks = 2010:2023) +
+  scale_shape_manual(values = 17)
 
+fa_sum %>% 
+  collapse_others(c("Year of Publication","First Author Gender")) %>% 
+  group_by(`Year of Publication`) %>% 
+  mutate(`Number of Articles` = `Number of Articles`/sum(`Number of Articles`)) %>% 
+  ungroup() %>% 
+  filter(`First Author Gender` == "Female") %>% 
+  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
+  summary()
+
+fa_sum %>% 
+  collapse_others(c("Year of Publication","First Author Gender")) %>% 
+  group_by(`Year of Publication`) %>% 
+  mutate(`Number of Articles` = `Number of Articles`/sum(`Number of Articles`)) %>% 
+  ungroup() %>% 
+  filter(`First Author Gender` == "Female") %>% 
+  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
+  confint()
+
+#last author absolute, gender split
 la_sum %>% 
   collapse_others(c("Year of Publication","Last Author Gender")) %>% 
   ggplot(aes(x = `Year of Publication`, y = `Number of Articles`, shape = `Last Author Gender`)) +
@@ -106,13 +173,61 @@ la_sum %>%
               formula = y ~ x, 
               geom = "smooth") +
   geom_point() +
-  ylim(0, NA)
+  ylim(0, NA) +
+  scale_x_continuous(breaks = 2010:2023)
+
+la_sum %>% 
+  collapse_others(c("Year of Publication","Last Author Gender")) %>% 
+  filter(`Last Author Gender` == "Female") %>% 
+  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
+  summary()
+
+la_sum %>% 
+  collapse_others(c("Year of Publication","Last Author Gender")) %>% 
+  filter(`Last Author Gender` == "Female") %>% 
+  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
+  confint()
+
+la_sum %>% 
+  collapse_others(c("Year of Publication","Last Author Gender")) %>% 
+  filter(`Last Author Gender` == "Male") %>% 
+  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
+  summary()
+
+la_sum %>% 
+  collapse_others(c("Year of Publication","Last Author Gender")) %>% 
+  filter(`Last Author Gender` == "Male") %>% 
+  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
+  confint()
+
+#last author absolute, sum
+la_sum %>% 
+  collapse_others(c("Year of Publication")) %>% 
+  ggplot(aes(x = `Year of Publication`, y = `Number of Articles`)) +
+  theme_classic() +
+  stat_smooth(method = "lm", 
+              formula = y ~ x, 
+              geom = "smooth") +
+  geom_point(shape = 15) +
+  ylim(0, NA) +
+  scale_x_continuous(breaks = 2010:2023)
+
+la_sum %>% 
+  collapse_others(c("Year of Publication")) %>% 
+  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
+  summary()
+
+la_sum %>% 
+  collapse_others(c("Year of Publication")) %>% 
+  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
+  confint()
+
 # stat_regline_equation(
 #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
 #   formula = formula
 # )
 
-
+#last author relative, split
 la_sum %>% 
   collapse_others(c("Year of Publication","Last Author Gender")) %>% 
   group_by(`Year of Publication`) %>% 
@@ -126,8 +241,27 @@ la_sum %>%
               formula = y ~ x, 
               geom = "smooth") +
   geom_point() +
-  ylim(0, NA)
+  ylim(0, NA) +
+  scale_x_continuous(breaks = 2010:2023) +
+  scale_shape_manual(values = 17)
 
+la_sum %>% 
+  collapse_others(c("Year of Publication","Last Author Gender")) %>% 
+  group_by(`Year of Publication`) %>% 
+  mutate(`Number of Articles` = `Number of Articles`/sum(`Number of Articles`)) %>% 
+  ungroup() %>% 
+  filter(`Last Author Gender` == "Female") %>% 
+  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
+  summary()
+
+la_sum %>% 
+  collapse_others(c("Year of Publication","Last Author Gender")) %>% 
+  group_by(`Year of Publication`) %>% 
+  mutate(`Number of Articles` = `Number of Articles`/sum(`Number of Articles`)) %>% 
+  ungroup() %>% 
+  filter(`Last Author Gender` == "Female") %>% 
+  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
+  confint()
 
 # both_sum %>% 
 #   filter(`First Author Gender` == "Female") %>% 
@@ -142,4 +276,19 @@ la_sum %>%
 #               geom = "smooth") +
 #   geom_point() +
 #   ylim(0, NA)
+
+
   
+
+
+
+#----------------
+fa_sum %>% 
+  collapse_others(c("Year of Publication")) %>% 
+  lm(data = ., formula = `Number of Articles` ~ `Year of Publication`) %>% 
+  summary()
+
+la_sum %>% 
+  collapse_others(c("Year of Publication")) %>% 
+  lm(data = ., formula = `Number of Articles` ~ `Year of Publication`) %>% 
+  summary()
