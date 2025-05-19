@@ -78,7 +78,10 @@ both_sum %>%
   geom_point() +
   ylim(0, NA) +
   scale_x_continuous(breaks = 2010:2023) +
-  scale_y_continuous(limits = c(-100,300))
+  scale_y_continuous(limits = c(-100,300)) +
+  theme(text = element_text(size= 12))
+ggsave(filename = "FA_func_LA_abs.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+
 # stat_regline_equation(
 #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
 #   formula = formula
@@ -126,7 +129,9 @@ both_sum %>%
   stat_smooth(method = "lm", 
               formula = y ~ x, 
               geom = "smooth") +
-  scale_shape_manual(values = 17)
+  scale_shape_manual(values = 17) +
+  theme(text = element_text(size= 12))
+ggsave(filename = "FA_func_LA_rel.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 #  scale_y_continuous(limits = c(-1,2)) +
 
 both_sum %>% 
@@ -159,7 +164,9 @@ fa_sum %>%
               geom = "smooth") +
   geom_point() +
   ylim(0, NA) +
-  scale_x_continuous(breaks = 2010:2023)
+  scale_x_continuous(breaks = 2010:2023) +
+  theme(text = element_text(size= 12))
+ggsave(filename = "FA_split_abs.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
   # stat_regline_equation(
   #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
   #   formula = formula
@@ -200,7 +207,9 @@ fa_sum %>%
               geom = "smooth") +
   geom_point(shape = 15) +
   ylim(0, NA) +
-  scale_x_continuous(breaks = 2010:2023) 
+  scale_x_continuous(breaks = 2010:2023) +
+  theme(text = element_text(size= 12))
+ggsave(filename = "FA_sum_abs.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 # stat_regline_equation(
 #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
 #   formula = formula
@@ -226,7 +235,9 @@ fa_sum %>%
   geom_point() +
   ylim(0, NA) +
   scale_x_continuous(breaks = 2010:2023) +
-  scale_shape_manual(values = 17)
+  scale_shape_manual(values = 17)+
+  theme(text = element_text(size= 12))
+ggsave(filename = "FA_split_rel.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 fa_sum %>% 
   collapse_others(c("Year of Publication","First Author Gender")) %>% 
@@ -256,7 +267,9 @@ la_sum %>%
               geom = "smooth") +
   geom_point() +
   ylim(0, NA) +
-  scale_x_continuous(breaks = 2010:2023)
+  scale_x_continuous(breaks = 2010:2023) +
+  theme(text = element_text(size= 12))
+ggsave(filename = "LA_split_abs.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 la_sum %>% 
   collapse_others(c("Year of Publication","Last Author Gender")) %>% 
@@ -292,7 +305,9 @@ la_sum %>%
               geom = "smooth") +
   geom_point(shape = 15) +
   ylim(0, NA) +
-  scale_x_continuous(breaks = 2010:2023)
+  scale_x_continuous(breaks = 2010:2023) +
+  theme(text = element_text(size= 12))
+ggsave(filename = "LA_sum_abs.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 la_sum %>% 
   collapse_others(c("Year of Publication")) %>% 
@@ -325,7 +340,9 @@ la_sum %>%
   geom_point() +
   ylim(0, NA) +
   scale_x_continuous(breaks = 2010:2023) +
-  scale_shape_manual(values = 17)
+  scale_shape_manual(values = 17) +
+  theme(text = element_text(size= 12))
+ggsave(filename = "LA_split_rel.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 la_sum %>% 
   collapse_others(c("Year of Publication","Last Author Gender")) %>% 
@@ -357,7 +374,9 @@ fa_sum %>%
               geom = "smooth") +
   geom_point() +
   ylim(0, NA) +
-  scale_x_continuous(breaks = 2010:2023)
+  scale_x_continuous(breaks = 2010:2023) +
+  theme(text = element_text(size= 12))
+ggsave(filename = "FA_split_abs_general.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 # stat_regline_equation(
 #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
 #   formula = formula
@@ -403,7 +422,9 @@ fa_sum %>%
               geom = "smooth") +
   geom_point(shape = 15) +
   ylim(0, NA) +
-  scale_x_continuous(breaks = 2010:2023) 
+  scale_x_continuous(breaks = 2010:2023)+
+  theme(text = element_text(size= 12))
+ggsave(filename = "FA_sum_abs_general.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 # stat_regline_equation(
 #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
 #   formula = formula
@@ -437,7 +458,9 @@ fa_sum %>%
   geom_point() +
   ylim(0, NA) +
   scale_x_continuous(breaks = 2010:2023) +
-  scale_shape_manual(values = 17)
+  scale_shape_manual(values = 17) +
+  theme(text = element_text(size= 12))
+ggsave(filename = "FA_split_rel_general.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 fa_sum %>% 
   filter(`Journal Type` %in% c("gen","med")) %>% 
@@ -470,7 +493,9 @@ la_sum %>%
               geom = "smooth") +
   geom_point() +
   ylim(0, NA) +
-  scale_x_continuous(breaks = 2010:2023)
+  scale_x_continuous(breaks = 2010:2023) +
+  theme(text = element_text(size= 12))
+ggsave(filename = "LA_split_abs_general.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 la_sum %>% 
   filter(`Journal Type` %in% c("gen","med")) %>% 
@@ -511,7 +536,9 @@ la_sum %>%
               geom = "smooth") +
   geom_point(shape = 15) +
   ylim(0, NA) +
-  scale_x_continuous(breaks = 2010:2023)
+  scale_x_continuous(breaks = 2010:2023)+
+  theme(text = element_text(size= 12))
+ggsave(filename = "LA_sum_abs_general.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 la_sum %>% 
   filter(`Journal Type` %in% c("gen","med")) %>% 
@@ -547,7 +574,9 @@ la_sum %>%
   geom_point() +
   ylim(0, NA) +
   scale_x_continuous(breaks = 2010:2023) +
-  scale_shape_manual(values = 17)
+  scale_shape_manual(values = 17) +
+  theme(text = element_text(size= 12))
+ggsave(filename = "LA_split_rel_general.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 la_sum %>% 
   filter(`Journal Type` %in% c("gen","med")) %>% 
