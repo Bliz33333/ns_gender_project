@@ -66,7 +66,8 @@ formula <- y ~ x
 
 
 #FA Women ~ LA, absolute-------------
-both_sum %>% 
+FA_func_LA_abs <-
+  both_sum %>% 
   collapse_others(c("Year of Publication","First Author Gender", "Last Author Gender")) %>% 
   filter(`First Author Gender` == "Female") %>% 
   ggplot(aes(x = `Year of Publication`, y = `Number of Articles`, shape = `Last Author Gender`)) +
@@ -80,7 +81,8 @@ both_sum %>%
   scale_x_continuous(breaks = 2010:2023) +
   scale_y_continuous(limits = c(-100,300)) +
   theme(text = element_text(size= 12))
-ggsave(filename = "FA_func_LA_abs.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+
+ggsave(filename = "FA_func_LA_abs.pdf", plot = FA_func_LA_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 # stat_regline_equation(
 #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
@@ -113,7 +115,8 @@ both_sum %>%
 
 
 #FA women ~ LA, relative---------------
-both_sum %>% 
+FA_func_LA_rel <-
+  both_sum %>% 
   collapse_others(c("Year of Publication","First Author Gender", "Last Author Gender")) %>% 
   filter(`First Author Gender` == "Female") %>%  
   group_by(`Year of Publication`) %>% 
@@ -131,7 +134,8 @@ both_sum %>%
               geom = "smooth") +
   scale_shape_manual(values = 17) +
   theme(text = element_text(size= 12))
-ggsave(filename = "FA_func_LA_rel.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+
+ggsave(filename = "FA_func_LA_rel.pdf", plot = FA_func_LA_rel, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 #  scale_y_continuous(limits = c(-1,2)) +
 
 both_sum %>% 
@@ -155,7 +159,8 @@ both_sum %>%
   confint()
 
 #first author absolute, gender split-------------
-fa_sum %>% 
+FA_split_abs <-
+  fa_sum %>% 
   collapse_others(c("Year of Publication","First Author Gender")) %>% 
   ggplot(aes(x = `Year of Publication`, y = `Number of Articles`, shape = `First Author Gender`)) +
   theme_classic() +
@@ -166,7 +171,9 @@ fa_sum %>%
   ylim(0, NA) +
   scale_x_continuous(breaks = 2010:2023) +
   theme(text = element_text(size= 12))
-ggsave(filename = "FA_split_abs.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+
+
+ggsave(filename = "FA_split_abs.pdf", plot = FA_split_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
   # stat_regline_equation(
   #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
   #   formula = formula
@@ -198,7 +205,8 @@ fa_sum %>%
 
 
 #first author absolute, sum------------
-fa_sum %>% 
+FA_sum_abs <-
+  fa_sum %>% 
   collapse_others(c("Year of Publication")) %>% 
   ggplot(aes(x = `Year of Publication`, y = `Number of Articles`)) +
   theme_classic() +
@@ -209,7 +217,8 @@ fa_sum %>%
   ylim(0, NA) +
   scale_x_continuous(breaks = 2010:2023) +
   theme(text = element_text(size= 12))
-ggsave(filename = "FA_sum_abs.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+
+ggsave(filename = "FA_sum_abs.pdf", plot = FA_sum_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 # stat_regline_equation(
 #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
 #   formula = formula
@@ -220,7 +229,8 @@ fa_sum %>%
   summary()
 
 #first author relative, gender split---------------
-fa_sum %>% 
+FA_split_rel <-
+  fa_sum %>% 
   collapse_others(c("Year of Publication","First Author Gender")) %>% 
   group_by(`Year of Publication`) %>% 
   mutate(`Number of Articles` = `Number of Articles`/sum(`Number of Articles`)) %>% 
@@ -237,7 +247,8 @@ fa_sum %>%
   scale_x_continuous(breaks = 2010:2023) +
   scale_shape_manual(values = 17)+
   theme(text = element_text(size= 12))
-ggsave(filename = "FA_split_rel.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+
+ggsave(filename = "FA_split_rel.pdf", plot = FA_split_rel, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 fa_sum %>% 
   collapse_others(c("Year of Publication","First Author Gender")) %>% 
@@ -258,7 +269,8 @@ fa_sum %>%
   confint()
 
 #last author absolute, gender split-------------
-la_sum %>% 
+LA_split_abs <-
+  la_sum %>% 
   collapse_others(c("Year of Publication","Last Author Gender")) %>% 
   ggplot(aes(x = `Year of Publication`, y = `Number of Articles`, shape = `Last Author Gender`)) +
   theme_classic() +
@@ -269,7 +281,8 @@ la_sum %>%
   ylim(0, NA) +
   scale_x_continuous(breaks = 2010:2023) +
   theme(text = element_text(size= 12))
-ggsave(filename = "LA_split_abs.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+
+ggsave(filename = "LA_split_abs.pdf", plot = LA_split_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 la_sum %>% 
   collapse_others(c("Year of Publication","Last Author Gender")) %>% 
@@ -296,7 +309,8 @@ la_sum %>%
   confint()
 
 #last author absolute, sum-------------
-la_sum %>% 
+LA_sum_abs <-
+  la_sum %>% 
   collapse_others(c("Year of Publication")) %>% 
   ggplot(aes(x = `Year of Publication`, y = `Number of Articles`)) +
   theme_classic() +
@@ -307,7 +321,8 @@ la_sum %>%
   ylim(0, NA) +
   scale_x_continuous(breaks = 2010:2023) +
   theme(text = element_text(size= 12))
-ggsave(filename = "LA_sum_abs.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+
+ggsave(filename = "LA_sum_abs.pdf", plot = LA_sum_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 la_sum %>% 
   collapse_others(c("Year of Publication")) %>% 
@@ -325,7 +340,8 @@ la_sum %>%
 # )
 
 #last author relative, split-----------
-la_sum %>% 
+LA_split_rel <-
+  la_sum %>% 
   collapse_others(c("Year of Publication","Last Author Gender")) %>% 
   group_by(`Year of Publication`) %>% 
   mutate(`Number of Articles` = `Number of Articles`/sum(`Number of Articles`)) %>% 
@@ -342,7 +358,8 @@ la_sum %>%
   scale_x_continuous(breaks = 2010:2023) +
   scale_shape_manual(values = 17) +
   theme(text = element_text(size= 12))
-ggsave(filename = "LA_split_rel.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+
+ggsave(filename = "LA_split_rel.pdf", plot = LA_split_rel, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 la_sum %>% 
   collapse_others(c("Year of Publication","Last Author Gender")) %>% 
@@ -364,7 +381,8 @@ la_sum %>%
 
 
 #first author absolute, gender split, general/gen med-------------
-fa_sum %>% 
+FA_split_abs_general <-
+  fa_sum %>% 
   filter(`Journal Type` %in% c("gen","med")) %>% 
   collapse_others(c("Year of Publication","First Author Gender")) %>% 
   ggplot(aes(x = `Year of Publication`, y = `Number of Articles`, shape = `First Author Gender`)) +
@@ -376,7 +394,8 @@ fa_sum %>%
   ylim(0, NA) +
   scale_x_continuous(breaks = 2010:2023) +
   theme(text = element_text(size= 12))
-ggsave(filename = "FA_split_abs_general.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+
+ggsave(filename = "FA_split_abs_general.pdf", plot = FA_split_abs_general, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 # stat_regline_equation(
 #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
 #   formula = formula
@@ -412,7 +431,8 @@ fa_sum %>%
 
 
 #first author absolute, sum, general/gen med------------
-fa_sum %>% 
+FA_sum_abs_general <-
+  fa_sum %>% 
   filter(`Journal Type` %in% c("gen","med")) %>% 
   collapse_others(c("Year of Publication")) %>% 
   ggplot(aes(x = `Year of Publication`, y = `Number of Articles`)) +
@@ -424,7 +444,8 @@ fa_sum %>%
   ylim(0, NA) +
   scale_x_continuous(breaks = 2010:2023)+
   theme(text = element_text(size= 12))
-ggsave(filename = "FA_sum_abs_general.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+
+ggsave(filename = "FA_sum_abs_general.pdf", plot = FA_sum_abs_general, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 # stat_regline_equation(
 #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
 #   formula = formula
@@ -442,7 +463,8 @@ fa_sum %>%
   confint()
 
 #first author relative, gender split, general/gen med---------------
-fa_sum %>% 
+FA_split_rel_general <-
+  fa_sum %>% 
   filter(`Journal Type` %in% c("gen","med")) %>% 
   collapse_others(c("Year of Publication","First Author Gender")) %>% 
   group_by(`Year of Publication`) %>% 
@@ -460,7 +482,8 @@ fa_sum %>%
   scale_x_continuous(breaks = 2010:2023) +
   scale_shape_manual(values = 17) +
   theme(text = element_text(size= 12))
-ggsave(filename = "FA_split_rel_general.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+
+ggsave(filename = "FA_split_rel_general.pdf", plot = FA_split_rel_general, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 fa_sum %>% 
   filter(`Journal Type` %in% c("gen","med")) %>% 
@@ -483,7 +506,8 @@ fa_sum %>%
   confint()
 
 #last author absolute, gender split, general/gen med-------------
-la_sum %>% 
+LA_split_abs_general <-
+  la_sum %>% 
   filter(`Journal Type` %in% c("gen","med")) %>% 
   collapse_others(c("Year of Publication","Last Author Gender")) %>% 
   ggplot(aes(x = `Year of Publication`, y = `Number of Articles`, shape = `Last Author Gender`)) +
@@ -495,7 +519,8 @@ la_sum %>%
   ylim(0, NA) +
   scale_x_continuous(breaks = 2010:2023) +
   theme(text = element_text(size= 12))
-ggsave(filename = "LA_split_abs_general.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+
+ggsave(filename = "LA_split_abs_general.pdf", plot = LA_split_abs_general, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 la_sum %>% 
   filter(`Journal Type` %in% c("gen","med")) %>% 
@@ -526,7 +551,8 @@ la_sum %>%
   confint()
 
 #last author absolute, sum, general/gen med-------------
-la_sum %>% 
+LA_sum_abs_general <-
+  la_sum %>% 
   filter(`Journal Type` %in% c("gen","med")) %>% 
   collapse_others(c("Year of Publication")) %>% 
   ggplot(aes(x = `Year of Publication`, y = `Number of Articles`)) +
@@ -538,7 +564,8 @@ la_sum %>%
   ylim(0, NA) +
   scale_x_continuous(breaks = 2010:2023)+
   theme(text = element_text(size= 12))
-ggsave(filename = "LA_sum_abs_general.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+
+ggsave(filename = "LA_sum_abs_general.pdf", plot = LA_sum_abs_general, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 la_sum %>% 
   filter(`Journal Type` %in% c("gen","med")) %>% 
@@ -558,7 +585,8 @@ la_sum %>%
 # )
 
 #last author relative, split, general/gen med-----------
-la_sum %>% 
+LA_split_rel_general <-
+  la_sum %>% 
   filter(`Journal Type` %in% c("gen","med")) %>% 
   collapse_others(c("Year of Publication","Last Author Gender")) %>% 
   group_by(`Year of Publication`) %>% 
@@ -576,7 +604,8 @@ la_sum %>%
   scale_x_continuous(breaks = 2010:2023) +
   scale_shape_manual(values = 17) +
   theme(text = element_text(size= 12))
-ggsave(filename = "LA_split_rel_general.png", plot = last_plot(), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+
+ggsave(filename = "LA_split_rel_general.pdf", plot = LA_split_rel_general, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 la_sum %>% 
   filter(`Journal Type` %in% c("gen","med")) %>% 
