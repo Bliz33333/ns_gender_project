@@ -149,3 +149,66 @@ Fig_6_FA_func_LA_rel <-
 Fig_6_FA_func_LA_rel
 
 ggsave(filename = "Fig_6_FA_func_LA_rel.pdf", plot = Fig_6_FA_func_LA_rel, path = "./plots/", width = 8.5, height = 6.65, units = "in", dpi = 320)
+
+
+##fig 7 ----
+# auth_FA_split_abs auth_FA_split_rel
+
+auth_FA_split_abs <-
+  auth_FA_split_abs + 
+  theme(axis.title.x=element_blank()) +
+  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
+
+auth_FA_split_rel <-
+  auth_FA_split_rel + 
+  theme(axis.title.x=element_text(margin = margin(t = 10))) +
+  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
+
+
+Fig_7_auth_FA_split_abs_rel <-
+  ggarrange(
+    auth_FA_split_abs,
+    auth_FA_split_rel,
+    common.legend = T,
+    legend = "bottom",
+    nrow = 2, 
+    ncol = 1,
+    align = "v"
+  ) +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth =1)) +
+  theme(plot.margin = margin(l=0.25,r=0.25,t= 0.5, b= 0.5,unit = "in"))
+
+Fig_7_auth_FA_split_abs_rel
+
+ggsave(filename = "Fig_7_auth_FA_split_abs_rel.pdf", plot = Fig_7_auth_FA_split_abs_rel, path = "./plots/", width = 8.5, height = 11, units = "in", dpi = 320)
+
+##fig 8 ----
+# auth_LA_split_abs auth_LA_split_rel
+
+auth_LA_split_abs <-
+  auth_LA_split_abs + 
+  theme(axis.title.x=element_blank()) +
+  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
+
+auth_LA_split_rel <-
+  auth_LA_split_rel + 
+  theme(axis.title.x=element_text(margin = margin(t = 10))) +
+  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
+
+
+Fig_8_auth_LA_split_abs_rel <-
+  ggarrange(
+    auth_LA_split_abs,
+    auth_LA_split_rel,
+    common.legend = T,
+    legend = "bottom",
+    nrow = 2, 
+    ncol = 1,
+    align = "v"
+  ) +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth =1)) +
+  theme(plot.margin = margin(l=0.25,r=0.25,t= 0.5, b= 0.5,unit = "in"))
+
+Fig_8_auth_LA_split_abs_rel
+
+ggsave(filename = "Fig_8_auth_LA_split_abs_rel.pdf", plot = Fig_8_auth_LA_split_abs_rel, path = "./plots/", width = 8.5, height = 11, units = "in", dpi = 320)

@@ -1,10 +1,18 @@
 library("pacman")
 p_load(tidyverse, rlang, ggpubr, tools)
 load(file = "./data/analysis_data")
-load(file = "./data/auth_fa")
-load(file = "./data/auth_la")
-load(file = "./data/prod_fa")
-load(file = "./data/prod_la")
+load(file = "./data/auth_fa_gen")
+auth_fa <- auth_fa_gen
+load(file = "./data/auth_la_gen")
+auth_la <- auth_la_gen
+load(file = "./data/prod_fa_gen")
+prod_fa <- prod_fa_gen
+load(file = "./data/prod_la_gen")
+prod_la <- prod_la_gen
+
+analysis_data <-
+  analysis_data %>%
+  filter(j_type %in% c("gen", "med")) 
 
 #-------------
 analysis_data <-
@@ -62,7 +70,7 @@ collapse_others <- function(my_dat, keeps)
       ungroup()
   )
 }
- 
+
 #collapse_others(sum_data, c('PubDate'))
 formula <- y ~ x
 #-------------
@@ -86,7 +94,7 @@ FA_func_LA_abs <-
   scale_y_continuous(limits = c(-100,300)) +
   theme(text = element_text(size= 12))
 
-ggsave(filename = "FA_func_LA_abs.pdf", plot = FA_func_LA_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "FA_func_LA_abs_gen.pdf", plot = FA_func_LA_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 # stat_regline_equation(
 #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
@@ -138,7 +146,7 @@ FA_func_LA_rel <-
               geom = "smooth") +
   theme(text = element_text(size= 12))
 
-ggsave(filename = "FA_func_LA_rel.pdf", plot = FA_func_LA_rel, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "FA_func_LA_rel_gen.pdf", plot = FA_func_LA_rel, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 #  scale_y_continuous(limits = c(-1,2)) +
 
 both_sum %>% 
@@ -177,11 +185,11 @@ FA_split_abs <-
   theme(text = element_text(size= 12))
 
 
-ggsave(filename = "FA_split_abs.pdf", plot = FA_split_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
-  # stat_regline_equation(
-  #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
-  #   formula = formula
-  # )
+ggsave(filename = "FA_split_abs_gen.pdf", plot = FA_split_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+# stat_regline_equation(
+#   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
+#   formula = formula
+# )
 
 fa_sum %>% 
   collapse_others(c("Year of Publication","First Author Gender")) %>% 
@@ -223,7 +231,7 @@ FA_sum_abs <-
   scale_x_continuous(breaks = 2010:2023) +
   theme(text = element_text(size= 12))
 
-ggsave(filename = "FA_sum_abs.pdf", plot = FA_sum_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "FA_sum_abs_gen.pdf", plot = FA_sum_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 # stat_regline_equation(
 #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
 #   formula = formula
@@ -252,7 +260,7 @@ FA_split_rel <-
   scale_x_continuous(breaks = 2010:2023) +
   theme(text = element_text(size= 12))
 
-ggsave(filename = "FA_split_rel.pdf", plot = FA_split_rel, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "FA_split_rel_gen.pdf", plot = FA_split_rel, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 fa_sum %>% 
   collapse_others(c("Year of Publication","First Author Gender")) %>% 
@@ -286,7 +294,7 @@ LA_split_abs <-
   scale_x_continuous(breaks = 2010:2023) +
   theme(text = element_text(size= 12))
 
-ggsave(filename = "LA_split_abs.pdf", plot = LA_split_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "LA_split_abs_gen.pdf", plot = LA_split_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 la_sum %>% 
   collapse_others(c("Year of Publication","Last Author Gender")) %>% 
@@ -327,7 +335,7 @@ LA_sum_abs <-
   scale_x_continuous(breaks = 2010:2023) +
   theme(text = element_text(size= 12))
 
-ggsave(filename = "LA_sum_abs.pdf", plot = LA_sum_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "LA_sum_abs_gen.pdf", plot = LA_sum_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 la_sum %>% 
   collapse_others(c("Year of Publication")) %>% 
@@ -363,7 +371,7 @@ LA_split_rel <-
   scale_x_continuous(breaks = 2010:2023) +
   theme(text = element_text(size= 12))
 
-ggsave(filename = "LA_split_rel.pdf", plot = LA_split_rel, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "LA_split_rel_gen.pdf", plot = LA_split_rel, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 la_sum %>% 
   collapse_others(c("Year of Publication","Last Author Gender")) %>% 
@@ -400,7 +408,7 @@ auth_FA_split_abs <-
   theme(text = element_text(size= 12))
 
 
-ggsave(filename = "auth_FA_split_abs.pdf", plot = auth_FA_split_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "auth_FA_split_abs_gen.pdf", plot = auth_FA_split_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 # stat_regline_equation(
 #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
 #   formula = formula
@@ -442,7 +450,7 @@ auth_FA_sum_abs <-
   theme(text = element_text(size= 12))
 
 
-ggsave(filename = "auth_FA_sum_abs.pdf", plot = auth_FA_sum_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "auth_FA_sum_abs_gen.pdf", plot = auth_FA_sum_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 # stat_regline_equation(
 #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
 #   formula = formula
@@ -477,7 +485,7 @@ auth_FA_split_rel <-
   scale_x_continuous(breaks = 2010:2023) +
   theme(text = element_text(size= 12))
 
-ggsave(filename = "auth_FA_split_rel.pdf", plot = auth_FA_split_rel, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "auth_FA_split_rel_gen.pdf", plot = auth_FA_split_rel, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 auth_fa %>% 
   filter(`Unique First Author Gender` %in% c("Female","Male")) %>% 
@@ -513,7 +521,7 @@ auth_LA_split_abs <-
   theme(text = element_text(size= 12))
 
 
-ggsave(filename = "auth_LA_split_abs.pdf", plot = auth_LA_split_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "auth_LA_split_abs_gen.pdf", plot = auth_LA_split_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 # stat_regline_equation(
 #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
 #   formula = formula
@@ -555,7 +563,7 @@ auth_LA_sum_abs <-
   theme(text = element_text(size= 12))
 
 
-ggsave(filename = "auth_LA_sum_abs.pdf", plot = auth_LA_sum_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "auth_LA_sum_abs_gen.pdf", plot = auth_LA_sum_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 # stat_regline_equation(
 #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
 #   formula = formula
@@ -590,7 +598,7 @@ auth_LA_split_rel <-
   scale_x_continuous(breaks = 2010:2023) +
   theme(text = element_text(size= 12))
 
-ggsave(filename = "auth_LA_split_rel.pdf", plot = auth_LA_split_rel, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "auth_LA_split_rel_gen.pdf", plot = auth_LA_split_rel, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 auth_la %>% 
   filter(`Unique Last Author Gender` %in% c("Female","Male")) %>% 
@@ -627,7 +635,7 @@ prod_FA_split_abs <-
   theme(text = element_text(size= 12))
 
 
-ggsave(filename = "prod_FA_split_abs.pdf", plot = prod_FA_split_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "prod_FA_split_abs_gen.pdf", plot = prod_FA_split_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 # stat_regline_equation(
 #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
 #   formula = formula
@@ -669,7 +677,7 @@ prod_FA_sum_abs <-
   theme(text = element_text(size= 12))
 
 
-ggsave(filename = "prod_FA_sum_abs.pdf", plot = prod_FA_sum_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "prod_FA_sum_abs_gen.pdf", plot = prod_FA_sum_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 # stat_regline_equation(
 #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
 #   formula = formula
@@ -703,7 +711,7 @@ prod_FA_split_rel <-
   scale_x_continuous(breaks = 2010:2023) +
   theme(text = element_text(size= 12))
 
-ggsave(filename = "prod_FA_split_rel.pdf", plot = prod_FA_split_rel, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "prod_FA_split_rel_gen.pdf", plot = prod_FA_split_rel, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 prod_fa %>% 
   filter(`First Author Gender` %in% c("Female","Male")) %>% 
@@ -739,7 +747,7 @@ prod_LA_split_abs <-
   theme(text = element_text(size= 12))
 
 
-ggsave(filename = "prod_LA_split_abs.pdf", plot = prod_LA_split_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "prod_LA_split_abs_gen.pdf", plot = prod_LA_split_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 # stat_regline_equation(
 #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
 #   formula = formula
@@ -781,7 +789,7 @@ prod_LA_sum_abs <-
   theme(text = element_text(size= 12))
 
 
-ggsave(filename = "prod_LA_sum_abs.pdf", plot = prod_LA_sum_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "prod_LA_sum_abs_gen.pdf", plot = prod_LA_sum_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 # stat_regline_equation(
 #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
 #   formula = formula
@@ -815,7 +823,7 @@ prod_LA_split_rel <-
   scale_x_continuous(breaks = 2010:2023) +
   theme(text = element_text(size= 12))
 
-ggsave(filename = "prod_LA_split_rel.pdf", plot = prod_LA_split_rel, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "prod_LA_split_rel_gen.pdf", plot = prod_LA_split_rel, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 prod_la %>% 
   filter(`Last Author Gender` %in% c("Female","Male")) %>% 
@@ -870,7 +878,7 @@ scatter_FA_F_num <-
   ylim(0, NA) +
   theme(text = element_text(size= 12))
 
-ggsave(filename = "scatter_FA_F_num.pdf", plot = scatter_FA_F_num, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "scatter_FA_F_num_gen.pdf", plot = scatter_FA_F_num, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 fa_merged %>% 
   filter(`First Author Gender` == "Female") %>%
@@ -896,7 +904,7 @@ fa_merged %>%
   lm(`Number of Articles` ~ `Number of Unique Authors`, data = .) %>% 
   summary()
 
-ggsave(filename = "scatter_FA_M_num.pdf", plot = scatter_FA_M_num, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "scatter_FA_M_num_gen.pdf", plot = scatter_FA_M_num, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 
 scatter_FA_sum_num <-
@@ -911,7 +919,7 @@ scatter_FA_sum_num <-
   ylim(0, NA) +
   theme(text = element_text(size= 12))
 
-ggsave(filename = "scatter_FA_sum_num.pdf", plot = scatter_FA_sum_num, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "scatter_FA_sum_num_gen.pdf", plot = scatter_FA_sum_num, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 fa_merged %>% 
   filter(`First Author Gender` == "Sum") %>%
@@ -931,7 +939,7 @@ scatter_FA_F_prod <-
   ylim(0, NA) +
   theme(text = element_text(size= 12))
 
-ggsave(filename = "scatter_FA_F_prod.pdf", plot = scatter_FA_F_prod, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "scatter_FA_F_prod_gen.pdf", plot = scatter_FA_F_prod, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 fa_merged %>% 
   filter(`First Author Gender` == "Female") %>%
@@ -952,7 +960,7 @@ scatter_FA_M_prod <-
   ylim(0, NA) +
   theme(text = element_text(size= 12)) 
 
-ggsave(filename = "scatter_FA_M_prod.pdf", plot = scatter_FA_M_prod, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "scatter_FA_M_prod_gen.pdf", plot = scatter_FA_M_prod, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 fa_merged %>% 
   filter(`First Author Gender` == "Male") %>%
@@ -973,7 +981,7 @@ scatter_FA_sum_prod <-
   ylim(0, NA) +
   theme(text = element_text(size= 12)) 
 
-ggsave(filename = "scatter_FA_sum_prod.pdf", plot = scatter_FA_sum_prod, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "scatter_FA_sum_prod_gen.pdf", plot = scatter_FA_sum_prod, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 fa_merged %>% 
   filter(`First Author Gender` == "Sum") %>%
@@ -1016,7 +1024,7 @@ scatter_LA_F_num <-
   ylim(0, NA) +
   theme(text = element_text(size= 12))
 
-ggsave(filename = "scatter_LA_F_num.pdf", plot = scatter_LA_F_num, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "scatter_LA_F_num_gen.pdf", plot = scatter_LA_F_num, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 la_merged %>% 
   filter(`Last Author Gender` == "Female") %>%
@@ -1037,7 +1045,7 @@ scatter_LA_M_num <-
   ylim(0, NA) +
   theme(text = element_text(size= 12)) 
 
-ggsave(filename = "scatter_LA_M_num.pdf", plot = scatter_LA_M_num, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "scatter_LA_M_num_gen.pdf", plot = scatter_LA_M_num, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 la_merged %>% 
   filter(`Last Author Gender` == "Male") %>%
@@ -1058,7 +1066,7 @@ scatter_LA_sum_num <-
   ylim(0, NA) +
   theme(text = element_text(size= 12)) 
 
-ggsave(filename = "scatter_LA_sum_num.pdf", plot = scatter_LA_sum_num, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "scatter_LA_sum_num_gen.pdf", plot = scatter_LA_sum_num, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 la_merged %>% 
   filter(`Last Author Gender` == "Sum") %>%
@@ -1078,7 +1086,7 @@ scatter_LA_F_prod <-
   ylim(0, NA) +
   theme(text = element_text(size= 12)) 
 
-ggsave(filename = "scatter_LA_F_prod.pdf", plot = scatter_LA_F_prod, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "scatter_LA_F_prod_gen.pdf", plot = scatter_LA_F_prod, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 la_merged %>% 
   filter(`Last Author Gender` == "Female") %>%
@@ -1099,7 +1107,7 @@ scatter_LA_M_prod <-
   ylim(0, NA) +
   theme(text = element_text(size= 12)) 
 
-ggsave(filename = "scatter_LA_M_prod.pdf", plot = scatter_LA_M_prod, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "scatter_LA_M_prod_gen.pdf", plot = scatter_LA_M_prod, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 la_merged %>% 
   filter(`Last Author Gender` == "Male") %>%
@@ -1120,7 +1128,7 @@ scatter_LA_sum_prod <-
   ylim(0, NA) +
   theme(text = element_text(size= 12)) 
 
-ggsave(filename = "scatter_LA_sum_prod.pdf", plot = scatter_LA_sum_prod, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+ggsave(filename = "scatter_LA_sum_prod_gen.pdf", plot = scatter_LA_sum_prod, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
 la_merged %>% 
   filter(`Last Author Gender` == "Sum") %>%
@@ -1146,7 +1154,7 @@ la_merged %>%
 #   ylim(0, NA)
 
 
-  
+
 
 
 
