@@ -1,5 +1,6 @@
 library("pacman")
 p_load(tidyverse, rlang, ggpubr, tools)
+source(file = "util_funcs.R")
 load(file = "./data/analysis_data")
 load(file = "./data/auth_fa")
 load(file = "./data/auth_la")
@@ -38,33 +39,25 @@ sum_data$`Last Author Gender` <- factor(sum_data$`Last Author Gender`, levels = 
 fa_sum <-
   sum_data %>% 
   filter(`First Author Gender` != "None")
+save(fa_sum, file = "./data/fa_sum")
 
 la_sum <-
   sum_data %>% 
   filter(`Last Author Gender` != "None")
+save(la_sum, file = "./data/la_sum")
 
 both_sum <-
   sum_data %>% 
   filter(`Last Author Gender` != "None") %>% 
   filter(`First Author Gender` != "None")
+save(both_sum, file = "./data/both_sum")
 
 #------------
 
-collapse_others <- function(my_dat, keeps)
-{
-  
-  keeps <- syms(keeps)
-  
-  return(
-    my_dat %>% 
-      group_by(!!!keeps) %>% 
-      summarise(`Number of Articles` = sum(`Number of Articles`), .groups = "keep") %>% 
-      ungroup()
-  )
-}
+
  
 #collapse_others(sum_data, c('PubDate'))
-formula <- y ~ x
+# formula <- y ~ x
 #-------------
 
 

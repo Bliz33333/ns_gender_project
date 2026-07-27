@@ -76,6 +76,16 @@ name_clean <- function(names)
 abns_gender_filtered$`First Name` <- abns_gender_filtered$`First Name` %>% name_clean()
 abns_gender_filtered$`Last Name` <- abns_gender_filtered$`Last Name` %>% name_clean()
 
+
+abns_gender_filtered$`First Name`[sapply(abns_gender_filtered$`First Name`, is.null)] <- "null*"
+abns_gender_filtered$`Last Name`[sapply(abns_gender_filtered$`Last Name`, is.null)] <- "null*"
+
+# abns_gender_filtered$`Last Name`[!sapply(abns_gender_filtered$`Last Name`, length)]
+
+abns_gender_filtered$`First Name` <- unlist(abns_gender_filtered$`First Name`)
+abns_gender_filtered$`Last Name` <- unlist(abns_gender_filtered$`Last Name`)
+save(abns_gender_filtered, file = "./data/abns_gender_filtered")
+
 na_na_cleaner <- function(name)
 {
   if(name == "na na")
@@ -98,24 +108,26 @@ gc()
 
 #Uneeded??---------
 
+fullname_data_trim$FA_FullName[fullname_data_trim$FA_FullName == "na na"] <- NA
+fullname_data_trim$LA_FullName[fullname_data_trim$LA_FullName == "na na"] <- NA
 
-for (i in 1:nrow(fullname_data_trim)) {
-  
-  fullname_data_trim$FA_FullName[i] <- na_na_cleaner(fullname_data_trim$FA_FullName[i])
-  fullname_data_trim$LA_FullName[i] <- na_na_cleaner(fullname_data_trim$LA_FullName[i])
-  
-  if((i %% 1000) == 0)
-  {
-    print(i)
-  }
-}
+# for (i in 1:nrow(fullname_data_trim)) {
+#   
+#   fullname_data_trim$FA_FullName[i] <- na_na_cleaner(fullname_data_trim$FA_FullName[i])
+#   fullname_data_trim$LA_FullName[i] <- na_na_cleaner(fullname_data_trim$LA_FullName[i])
+#   
+#   if((i %% 1000) == 0)
+#   {
+#     print(i)
+#   }
+# }
 #-------------
 
-temp <- (fullname_data_trim$FA_FullName == "na na")
-fullname_data_trim$FA_FullName[temp] <- NA
-
-temp <- (fullname_data_trim$LA_FullName == "na na")
-fullname_data_trim$LA_FullName[temp] <- NA
+# temp <- (fullname_data_trim$FA_FullName == "na na")
+# fullname_data_trim$FA_FullName[temp] <- NA
+# 
+# temp <- (fullname_data_trim$LA_FullName == "na na")
+# fullname_data_trim$LA_FullName[temp] <- NA
 
 name_match <- function(first, last, full)
 {
