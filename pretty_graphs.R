@@ -55,12 +55,6 @@ save(both_sum, file = "./data/both_sum")
 #------------
 
 
- 
-#collapse_others(sum_data, c('PubDate'))
-# formula <- y ~ x
-#-------------
-
-
 
 #FA Women ~ LA, absolute-------------
 FA_func_LA_abs <-
@@ -156,50 +150,34 @@ both_sum %>%
 
 #-------------
 #first author absolute, gender split-------------
-FA_split_abs <-
-  fa_sum %>% 
-  collapse_others(c("Year of Publication","First Author Gender")) %>% 
-  ggplot(aes(x = `Year of Publication`, y = `Number of Articles`, shape = `First Author Gender`)) +
-  theme_classic() +scale_shape_manual(values = c("Female" = 16, "Male" = 17, "Sum" = 15)) +
-  stat_smooth(method = "lm", 
-              formula = y ~ x, 
+
+plot_name = "FA_split_abs"
+base_df = "fa_sum"
+x = "Year of Publication"
+y = "First Author Gender"
+shape = "First Author Gender"
+
+temp_df <-
+  get(base_df) %>% 
+  collapse_others(x, shape)
+
+temp_plot <-
+  temp_df %>%
+  ggplot(aes(y = .data[[y]], x = .data[[x]], shape = .data[[shape]])) +
+  theme_classic() + scale_shape_manual(values = c(
+    "Female" = 16,
+    "Male" = 17,
+    "Sum" = 15
+  )) +
+  stat_smooth(method = "lm",
+              formula = y ~ x,
               geom = "smooth") +
   geom_point() +
   ylim(0, NA) +
-  scale_x_continuous(breaks = 2010:2023) +
-  theme(text = element_text(size= 12))
+  theme(text = element_text(size = 12)) +
+  scale_x_continuous(breaks = 2010:2023)
 
-
-ggsave(filename = "FA_split_abs.pdf", plot = FA_split_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
-  # stat_regline_equation(
-  #   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
-  #   formula = formula
-  # )
-
-fa_sum %>% 
-  collapse_others(c("Year of Publication","First Author Gender")) %>% 
-  filter(`First Author Gender` == "Female") %>% 
-  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
-  summary()
-
-fa_sum %>% 
-  collapse_others(c("Year of Publication","First Author Gender")) %>% 
-  filter(`First Author Gender` == "Female") %>% 
-  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
-  confint()
-
-fa_sum %>% 
-  collapse_others(c("Year of Publication","First Author Gender")) %>% 
-  filter(`First Author Gender` == "Male") %>% 
-  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
-  summary()
-
-fa_sum %>% 
-  collapse_others(c("Year of Publication","First Author Gender")) %>% 
-  filter(`First Author Gender` == "Male") %>% 
-  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
-  confint()
-
+plot_finish_both_gender(plot_name, temp_plot, x, y, mode, x)
 
 #first author absolute, sum------------
 FA_sum_abs <-
@@ -217,10 +195,9 @@ FA_sum_abs <-
   theme(text = element_text(size= 12))
 
 ggsave(filename = "FA_sum_abs.pdf", plot = FA_sum_abs, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
-# stat_regline_equation(
-#   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
-#   formula = formula
-# )
+
+
+
 fa_sum %>% 
   collapse_others(c("Year of Publication")) %>% 
   lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
