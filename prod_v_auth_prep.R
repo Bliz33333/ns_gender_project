@@ -1,13 +1,38 @@
 library("pacman")
 p_load(tidyverse, rlang, ggpubr, tools)
-load(file = "./data/analysis_data")
-load(file = "./data/auth_fa")
-load(file = "./data/auth_la")
-load(file = "./data/prod_fa")
-load(file = "./data/prod_la")
-load(file = "./data/fa_sum")
-load(file = "./data/la_sum")
 source(file = "util_funcs.R")
+
+mode = "_gen"
+
+if(mode == "")
+{
+  load(file = "./data/analysis_data")
+  load(file = "./data/auth_fa")
+  load(file = "./data/auth_la")
+  load(file = "./data/prod_fa")
+  load(file = "./data/prod_la")
+  load(file = "./data/fa_sum")
+  load(file = "./data/la_sum")
+} else if(mode == "_gen"){
+  load(file = "./data/analysis_data")
+  load(file = "./data/auth_fa_gen")
+  auth_fa <- auth_fa_gen
+  load(file = "./data/auth_la_gen")
+  auth_la <- auth_la_gen
+  load(file = "./data/prod_fa_gen")
+  prod_fa <- prod_fa_gen
+  load(file = "./data/prod_la_gen")
+  prod_la <- prod_la_gen
+  
+  load(file = "./data/fa_sum_gen")
+  load(file = "./data/la_sum_gen")
+  
+  analysis_data <-
+    analysis_data %>%
+    filter(j_type %in% c("gen", "med")) 
+}
+
+
 
 #------------
 fa_articles <- 
@@ -49,8 +74,8 @@ raw_merged_fa <-
   merge(fa_articles, auth_fa) %>% 
   merge(prod_fa)
 
-save(ratios_merged_fa, file = "./data/ratios_merged_fa")
-save(raw_merged_fa, file = "./data/raw_merged_fa")
+save(ratios_merged_fa, file = paste0("./data/ratios_merged_fa",mode))
+save(raw_merged_fa, file = paste0("./data/raw_merged_fa",mode))
 
 #----
 auth_ratio_la <-
@@ -83,7 +108,7 @@ raw_merged_la <-
   merge(la_articles, auth_la) %>% 
   merge(prod_la)
 
-save(ratios_merged_la, file = "./data/ratios_merged_la")
-save(raw_merged_la, file = "./data/raw_merged_la")
+save(ratios_merged_la, file = paste0("./data/ratios_merged_la",mode))
+save(raw_merged_la, file = paste0("./data/raw_merged_la", mode))
 
 #----

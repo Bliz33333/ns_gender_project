@@ -2,7 +2,7 @@ p_load(epiDisplay)
 load(file = "./data/gendered_paper_data")
 
 
-FIX_ME <- 1711
+FIX_ME <- -1
 
 #al de is this name 1711
 filtered_index <- FIX_ME
@@ -11,10 +11,14 @@ gendered_paper_data_filtered <-
   gendered_paper_data %>% 
   filter(!(fa_male %in% filtered_index)) %>% 
   filter(!(la_male %in% filtered_index)) %>% 
+  filter(!(fa_female %in% filtered_index)) %>% 
+  filter(!(la_female %in% filtered_index)) %>% 
   filter(PubDate >= 2010) %>% 
 #  filter(PubDate <= 2022) %>%
   filter(fa_gender != "mix") %>% 
   filter(la_gender != "mix")
+
+save(gendered_paper_data_filtered, file = "./data/gendered_paper_data_filtered")
 
 analysis_data <-
   gendered_paper_data_filtered %>% 
@@ -61,7 +65,7 @@ analysis_data <-
   mutate(Journal = as.factor(Journal)) %>% 
   mutate(j_type = as.factor(j_type))
   
-#save(analysis_data, file = "./data/analysis_data")
+save(analysis_data, file = "./data/analysis_data")
 
 fa_data <-
   analysis_data %>% 

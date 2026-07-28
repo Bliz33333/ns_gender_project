@@ -1,10 +1,14 @@
 library("pacman")
 p_load(tidyverse, readxl)
 source("util_funcs.R")
-load(file = "./data/ratios_merged_fa")
-load(file = "./data/raw_merged_fa")
-load(file = "./data/ratios_merged_la")
-load(file = "./data/raw_merged_la")
+
+mode = ""
+
+load(file = paste0("./data/ratios_merged_fa", mode))
+load(file = paste0("./data/raw_merged_fa", mode))
+load(file = paste0("./data/ratios_merged_la", mode))
+load(file = paste0("./data/raw_merged_la", mode))
+
 
 log_files <- list()
 
@@ -30,8 +34,12 @@ prod_auth_corr_graphs <- expression({
     
     scale_x_continuous(breaks = 2010:2023)
   
-  plot_finish(plot_name, temp_plot, x, y)
+  plot_finish(plot_name, temp_plot, x, y, mode)
 })
+
+
+
+
 
 #----
 
@@ -48,8 +56,14 @@ for (i in 1:nrow(schema)) {
   eval(prod_auth_corr_graphs)
 }
 
+save(log_files, file = paste0("./data/prod_auth_log_files",mode))
+
 #----
 
-ggplot(ratios_merged_fa,
-       aes(x = `Year of Publication`, y = log2ratio, color = name)) +
-  geom_col(position = "stack")
+ggplot(ratios_merged_fa, aes(x = `Year of Publication`, y = log2ratio, fill = name)) + 
+  geom_col(position = "stack") +
+  theme_classic()
+
+
+
+
