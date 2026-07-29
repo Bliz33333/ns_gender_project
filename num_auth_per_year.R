@@ -1,12 +1,35 @@
 library("pacman")
 p_load(tidyverse)
 load(file = "./data/gendered_paper_data")
+load(file = "./data/analysis_data")
+
+mode = "_gen"
 
 #----
-gendered_paper_data %>% 
-  filter(PubDate >= 2010) %>% 
-  filter(PubDate <= 2023) %>% 
-  nrow()
+
+j_filt = gendered_paper_data$Journal %>% unique() %>% as.character()
+type_filt = analysis_data$j_type %>% unique() %>% as.character()
+
+if(mode == "_gen")
+{
+  j_filt <- c("Nature", "Lancet (London, England)", "JAMA", "Science (New York, N.Y.)", "Nature medicine", "The New England journal of medicine", "Science translational medicine", "JAMA surgery")
+  type_filt <- c("gen","med")
+}
+
+gendered_paper_data <- 
+  gendered_paper_data %>% 
+  filter(Journal %in% j_filt)
+
+analysis_data <-
+  analysis_data %>% 
+  filter(j_type %in% type_filt)
+
+
+#----
+# gendered_paper_data %>% 
+#   filter(PubDate >= 2010) %>% 
+#   filter(PubDate <= 2023) %>% 
+#   nrow()
 
 
 num_unique_auth <- 
@@ -60,6 +83,7 @@ fa_yearly <-
   pivot_wider(names_from = `First Author Gender`, values_from = `Number of Articles`) %>% 
   select(!none)
 
+
 la_yearly <-
   la_yearly %>% 
   pivot_wider(names_from = `Last Author Gender`, values_from = `Number of Articles`) %>% 
@@ -98,10 +122,16 @@ auth_la <-
 
 colnames(num_per_unique) <- c("Year of Publication", "Female First Author Mean Productivity", "Male First Author Mean Productivity", "Female Last Author Mean Productivity", "Male Last Author Mean Productivity")
 
+# num_per_unique <-
+#   num_per_unique %>% 
+#   mutate(`First Author Productivity` = (`Female First Author Mean Productivity` + `Male First Author Mean Productivity`)) %>% 
+#   mutate(`Last Author Productivity` = `Female Last Author Mean Productivity` + `Male Last Author Mean Productivity`)
+
+
 num_per_unique <-
   num_per_unique %>% 
-  mutate(`First Author Productivity` = `Female First Author Mean Productivity` + `Male First Author Mean Productivity`) %>% 
-  mutate(`Last Author Productivity` = `Female Last Author Mean Productivity` + `Male Last Author Mean Productivity`)
+  mutate(`First Author Productivity` = ( (fa_yearly$female + fa_yearly$male)/ (num_unique_auth$`Unique Women First Authors` + num_unique_auth$`Unique Male First Authors`))) %>% 
+  mutate(`Last Author Productivity` = ( (la_yearly$female + la_yearly$male)/ (num_unique_auth$`Unique Women Last Authors` + num_unique_auth$`Unique Male Last Authors`)))
 
 prod_fa <-   num_per_unique[,c(1,2,3,6)] 
 colnames(prod_fa)[c(2,3,4)] <- c("Female","Male","Sum")
@@ -117,7 +147,7 @@ prod_la <-
 
 #---------
 
-save(auth_fa, file = "./data/auth_fa")
-save(auth_la, file = "./data/auth_la")
-save(prod_fa, file = "./data/prod_fa")
-save(prod_la, file = "./data/prod_la")
+save(auth_fa, file = paste0("./data/auth_fa",mode))
+save(auth_la, file = paste0("./data/auth_la",mode))
+save(prod_fa, file = paste0("./data/prod_fa",mode))
+save(prod_la, file = paste0("./data/prod_la",mode))

@@ -11,11 +11,15 @@ collapse_others <- function(my_dat, keeps)
   )
 }
 
-plot_finish <- function(plot_name, temp_plot, x, y, mode)
+plot_finish <- function(plot_name, temp_plot, temp_df, x, y, mode)
 {
+  
   assign(plot_name, temp_plot, envir = .GlobalEnv)
   
   ggsave(filename = paste0(plot_name,mode, ".pdf"), plot = get(plot_name), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+  
+  # print(temp_df)
+  
   
   log_files[[plot_name]] <<- 
     (
@@ -24,7 +28,7 @@ plot_finish <- function(plot_name, temp_plot, x, y, mode)
     )
 }
 
-plot_finish_both_gender <- function(plot_name, temp_plot, x, y, mode, gend_filt)
+plot_finish_both_gender <- function(plot_name, temp_plot, temp_df, x, y, mode, gend_filt)
 {
   assign(plot_name, temp_plot, envir = .GlobalEnv)
   

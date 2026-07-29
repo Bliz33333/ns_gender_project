@@ -34,7 +34,7 @@ prod_auth_corr_graphs <- expression({
     
     scale_x_continuous(breaks = 2010:2023)
   
-  plot_finish(plot_name, temp_plot, x, y, mode)
+  plot_finish(plot_name, temp_plot, temp_df, x, y, mode)
 })
 
 
