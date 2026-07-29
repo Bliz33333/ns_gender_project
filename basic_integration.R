@@ -1,6 +1,7 @@
-p_load(stringr, stringi)
+library(pacman)
+p_load(stringr, stringi, readxl, tidyverse)
 load(file = "./data/tabulated_data_recoded")
-load(file = "./data/abns_names")
+# load(file = "./data/abns_names")
 
 
 fullname_data <-
