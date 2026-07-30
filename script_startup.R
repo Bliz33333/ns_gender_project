@@ -22,7 +22,3 @@ saveit <- function(..., string, file) {
   save(list=names(x), file=file, envir=list2env(x))
 }
 
-
-# TODO: 
-# two affiliations contain interrobangs
-# resolve first and last author selection in the case of collective names first or last

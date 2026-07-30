@@ -4,7 +4,7 @@ load(file = "./data/gendered_paper_data")
 load(file = "./data/analysis_data")
 
 mode = "_gen"
-
+# mode = ""
 #----
 
 j_filt = gendered_paper_data$Journal %>% unique() %>% as.character()
@@ -36,10 +36,10 @@ num_unique_auth <-
   gendered_paper_data %>% 
   group_by(PubDate) %>% 
   summarise(
-    fa_f_num = length(unique(fa_female)),
-    fa_m_num = length(unique(fa_male)),
-    la_f_num = length(unique(la_female)),
-    la_m_num = length(unique(la_male))
+    fa_f_num = length(unique(fa_abns_id * (fa_gender == "female")))-2,
+    fa_m_num = length(unique(fa_abns_id * (fa_gender == "male")))-2,
+    la_f_num = length(unique(la_abns_id * (la_gender == "female")))-2,
+    la_m_num = length(unique(la_abns_id * (la_gender == "male")))-2
     ) %>% 
   filter(PubDate >= 2010) %>%
   filter(PubDate <= 2023)
@@ -81,13 +81,13 @@ la_yearly <-
 fa_yearly <-
   fa_yearly %>% 
   pivot_wider(names_from = `First Author Gender`, values_from = `Number of Articles`) %>% 
-  select(!none)
+  select(!"NA")
 
 
 la_yearly <-
   la_yearly %>% 
   pivot_wider(names_from = `Last Author Gender`, values_from = `Number of Articles`) %>% 
-  select(!none) %>% 
+  select(!"NA") %>% 
   select(!`Year of Publication`)
 
 yearly_sum <- cbind(fa_yearly, la_yearly)

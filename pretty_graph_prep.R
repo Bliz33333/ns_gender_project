@@ -3,7 +3,9 @@ p_load(tidyverse, rlang, ggpubr, tools, readxl)
 source(file = "util_funcs.R")
 
 log_files = list()
+
 mode = "_gen"
+# mode = ""
 
 if(mode == "")
 {
@@ -12,35 +14,19 @@ if(mode == "")
   load(file = "./data/auth_la")
   load(file = "./data/prod_fa")
   load(file = "./data/prod_la")
-  load(file = "./data/fa_sum")
-  load(file = "./data/la_sum")
-  load(file = "./data/both_sum")
 } else if(mode == "_gen")
 {
   load(file = "./data/analysis_data")
   load(file = "./data/auth_fa_gen")
-  auth_fa <- auth_fa_gen
   load(file = "./data/auth_la_gen")
-  auth_la <- auth_la_gen
   load(file = "./data/prod_fa_gen")
-  prod_fa <- prod_fa_gen
   load(file = "./data/prod_la_gen")
-  prod_la <- prod_la_gen
   
   analysis_data <-
     analysis_data %>%
     filter(j_type %in% c("gen", "med")) 
 }
 
-
-library("pacman")
-p_load(tidyverse, rlang, ggpubr, tools)
-source(file = "util_funcs.R")
-load(file = "./data/analysis_data")
-load(file = "./data/auth_fa")
-load(file = "./data/auth_la")
-load(file = "./data/prod_fa")
-load(file = "./data/prod_la")
 
 #-------------
 analysis_data <-

@@ -80,9 +80,9 @@ strip_list <- function(this_row, col_num = 3)
 }
 
 abns_ln_indexed <-
-  tibble(abns_id = 1:length(abns_last_names), fn =abns_first_names, ln = abns_last_names, gender = abns_gender_filtered$ga_gender)
+  tibble(abns_id = 1:length(abns_last_names), fn =abns_first_names, ln = abns_last_names, gender = abns_gender_filtered$ga_gender, orig_fn = abns_gender_filtered$`First Name`, orig_ln = abns_gender_filtered$`Last Name`)
 
-abns_cleaned <- tibble(abns_id = integer(1), fn = character(1), ln = character(1), gender = character(1), .rows = 2*nrow(abns_ln_indexed))
+abns_cleaned <- tibble(abns_id = integer(1), fn = character(1), ln = character(1), gender = character(1), orig_fn = character(1), orig_ln = character(1), .rows = 2*nrow(abns_ln_indexed))
 working_index <- 1
 for(i in 1:nrow(abns_ln_indexed))
 {

@@ -2,6 +2,7 @@ library("pacman")
 p_load(tidyverse, readxl)
 source("util_funcs.R")
 
+# mode = "_gen"
 mode = ""
 
 load(file = paste0("./data/ratios_merged_fa", mode))
