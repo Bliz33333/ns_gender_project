@@ -17,7 +17,9 @@ article_matches$la_abns_id <- match(pubmed_cleaned$la_full, abns_cleaned$fullnam
 
 
 
-
+article_matches <-
+  article_matches %>% 
+  mutate(fa_gender = abns_cleaned[fa_abns_id])
 
 
 
