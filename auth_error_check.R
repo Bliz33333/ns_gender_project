@@ -1,7 +1,7 @@
 library("pacman")
 p_load(tidyverse)
 load(file = "./data/gendered_paper_data_filtered")
-load(file = "./data/abns_gender_filtered")
+load(file = "./data/abns_cleaned")
 
 all_attr <-
   gendered_paper_data_filtered %>% 

@@ -49,34 +49,3 @@ plot_finish_both_gender <- function(plot_name, temp_plot, temp_df, x, y, mode, g
     )
 }
 
-abns_fname_clean <- function(name)
-{
-  fname <- tolower(fname)
-  
-  fname <- word(fname, 1)
-  
-  
-  # if(length(grepl(pattern = ".", x=fname ,fixed = T)) > 1)
-  # {
-  #   print(fname)
-  # }
-  
-  if (grepl(pattern = ".",
-            x = fname ,
-            fixed = T))
-  {
-    return(NULL)
-  }
-  
-  
-  if (nchar(fname) == 1)
-  {
-    return(NULL)
-  }
-  
-  fname <- trimws(fname)
-  
-  fname <- stri_trans_general(str = fname, id = "Latin-ASCII")
-  
-  return(fname)
-}

@@ -85,7 +85,7 @@ abns_gender_filtered$`Last Name`[sapply(abns_gender_filtered$`Last Name`, is.nul
 
 abns_gender_filtered$`First Name` <- unlist(abns_gender_filtered$`First Name`)
 abns_gender_filtered$`Last Name` <- unlist(abns_gender_filtered$`Last Name`)
-save(abns_gender_filtered, file = "./data/abns_gender_filtered")
+# save(abns_gender_filtered, file = "./data/abns_gender_filtered")
 
 na_na_cleaner <- function(name)
 {
@@ -260,10 +260,8 @@ gendered_paper_data$la_gender[((gendered_paper_data$la_male == 0) & !(gendered_p
 gendered_paper_data$la_gender[(!(gendered_paper_data$la_male == 0) & (gendered_paper_data$la_female == 0))] <- "male"
 gendered_paper_data$la_gender[(!(gendered_paper_data$la_male == 0) & !(gendered_paper_data$la_female == 0))] <- "mix"
 
-if(!file.exists("./data/gendered_paper_data"))
-{
-  save(gendered_paper_data, file = "./data/gendered_paper_data")
-}
+save(gendered_paper_data, file = "./data/gendered_paper_data")
+
 
 #---------------------
 

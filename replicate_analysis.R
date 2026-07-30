@@ -24,20 +24,7 @@ analysis_data <-
   gendered_paper_data_filtered %>% 
   dplyr::select(PubDate, Journal, fa_gender, la_gender, Type)
 
-# article_types <-
-#   analysis_data$Type %>% 
-#   unlist() %>% 
-#   str_split(pattern = "!") %>% 
-#   unlist() %>% 
-#   table() %>% 
-#   as.data.frame()
-# 
-# #cutoff = 100
-# 
-# article_types <-
-#   article_types[article_types[,2] >= 100,1]
-# 
-# article_types <- as.character(article_types)
+
 
 analysis_data <-
   analysis_data %>% 
@@ -66,6 +53,8 @@ analysis_data <-
   mutate(j_type = as.factor(j_type))
   
 save(analysis_data, file = "./data/analysis_data")
+
+#---------------
 
 fa_data <-
   analysis_data %>% 
@@ -109,7 +98,7 @@ summary(my_reg)
 logistic.display(my_reg)
 with(summary(my_reg), 1 - deviance/null.deviance)
 
-#----------
+
 
 gendered_paper_data_filtered %>% 
   filter(fa_gender != "none") %>%
@@ -151,7 +140,7 @@ gendered_paper_data_filtered %>%
   geom_bar(position = position_dodge())
 
 #spearman r
-#----------------------
+
 
 gendered_paper_data_filtered %>% 
   filter(PubDate >= 2010) %>%
