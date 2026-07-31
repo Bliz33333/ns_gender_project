@@ -1,5 +1,9 @@
+# log_name = "pretty_graph"
 log_name = "prod_auth"
-mode = "_gen"
+
+# mode = "_gen"
+mode = ""
+
 
 load(file = paste0("./data/",log_name,"_log_files",mode))
 

@@ -231,5 +231,5 @@ for (i in 1:nrow(schema)) {
   eval(base_pretty_graphs)
 }
 
-save(log_files, file = paste0("./data/prod_auth_log_files",mode))
+save(log_files, file = paste0("./data/pretty_graph_log_files",mode))
 #-------------
