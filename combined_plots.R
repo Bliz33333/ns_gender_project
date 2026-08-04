@@ -1,214 +1,44 @@
 library("pacman")
 p_load(tidyverse, rlang, ggpubr, tools)
-# source("pretty_graphs")
+source("util_funcs.R")
 
-##Fig 2---- 
+#----
 
-# FA_split_abs FA_split_rel
+#Fig_2_FA_split_abs_rel
+basic_combine("Fig_2_FA_split_abs_rel", "art_fa_abs_split", "art_fa_rel_split")
 
-FA_split_abs <-
-  FA_split_abs + 
-  theme(axis.title.x=element_blank()) +
-  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
+#Fig_3_LA_split_abs_rel
+basic_combine("Fig_3_LA_split_abs_rel", "art_la_abs_split", "art_la_rel_split")
 
-FA_split_rel <-
-  FA_split_rel + 
-  theme(axis.title.x=element_text(margin = margin(t = 10))) +
-  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
-  
+#Fig_4_FA_split_abs_rel_general
+basic_combine("Fig_4_FA_split_abs_rel_general", "art_fa_abs_split", "art_fa_rel_split", mode = "_gen")
 
-Fig_2_FA_split_abs_rel <-
-  ggarrange(
-  FA_split_abs,
-  FA_split_rel,
-  common.legend = T,
-  legend = "bottom",
-  nrow = 2, 
-  ncol = 1,
-  align = "v"
-) +
-  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth =1)) +
-  theme(plot.margin = margin(l=0.25,r=0.25,t= 0.5, b= 0.5,unit = "in"))
+#Fig_5_LA_split_abs_rel_general
+basic_combine("Fig_5_LA_split_abs_rel_general", "art_la_abs_split", "art_la_rel_split", mode = "_gen")
 
-Fig_2_FA_split_abs_rel
+#Fig_6_FA_func_LA_rel
+basic_combine("Fig_6_FA_func_LA_abs_rel", "FA_func_LA_abs", "FA_func_LA_rel")
 
-ggsave(filename = "Fig_2_FA_split_abs_rel.pdf", plot = Fig_2_FA_split_abs_rel, path = "./plots/", width = 8.5, height = 11, units = "in", dpi = 320)
+#Fig_7_auth_FA_split_abs_rel
+basic_combine("Fig_7_auth_FA_split_abs_rel", "auth_fa_abs_split","auth_fa_rel_split")
 
-##Fig 3---- 
+#Fig_8_auth_LA_split_abs_rel
+basic_combine("Fig_8_auth_LA_split_abs_rel", "auth_la_abs_split","auth_la_rel_split")
 
-# LA_split_abs LA_split_rel
+#Fig_9_prod_FA_split_abs_rel
+basic_combine("Fig_9_prod_FA_split_abs_rel", "prod_fa_abs_split","prod_fa_rel_split")
 
-LA_split_abs <-
-  LA_split_abs + 
-  theme(axis.title.x=element_blank()) +
-  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
+#Fig_10_prod_LA_split_abs_rel
+basic_combine("Fig_10_prod_LA_split_abs_rel", "prod_la_abs_split","prod_la_rel_split")
 
-LA_split_rel <-
-  LA_split_rel + 
-  theme(axis.title.x=element_text(margin = margin(t = 10))) +
-  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
+#Fig_11_log_ratios
+basic_combine("Fig_11_log_ratios", "log_ratios_fa", "log_ratios_la")
 
+#Fig_12_fa_hist
+basic_combine("Fig_12_fa_hist", "hist_fa_f", "hist_fa_m")
 
-Fig_3_LA_split_abs_rel <-
-  ggarrange(
-    LA_split_abs,
-    LA_split_rel,
-    common.legend = T,
-    legend = "bottom",
-    nrow = 2, 
-    ncol = 1,
-    align = "v"
-  ) +
-  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth =1)) +
-  theme(plot.margin = margin(l=0.25,r=0.25,t= 0.5, b= 0.5,unit = "in"))
+#Fig_13_la_hist
+basic_combine("Fig_13_la_hist", "hist_la_f", "hist_la_m")
 
-Fig_3_LA_split_abs_rel
-
-ggsave(filename = "Fig_3_LA_split_abs_rel.pdf", plot = Fig_3_LA_split_abs_rel, path = "./plots/", width = 8.5, height = 11, units = "in", dpi = 320)
-##Fig 4---- 
-
-# FA_split_abs_general FA_split_rel_general
-
-FA_split_abs_general <-
-  FA_split_abs_general + 
-  theme(axis.title.x=element_blank()) +
-  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
-
-FA_split_rel_general <-
-  FA_split_rel_general + 
-  theme(axis.title.x=element_text(margin = margin(t = 10))) +
-  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
-
-
-Fig_4_FA_split_abs_rel_general <-
-  ggarrange(
-    FA_split_abs_general,
-    FA_split_rel_general,
-    common.legend = T,
-    legend = "bottom",
-    nrow = 2, 
-    ncol = 1,
-    align = "v"
-  ) +
-  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth =1)) +
-  theme(plot.margin = margin(l=0.25,r=0.25,t= 0.5, b= 0.5,unit = "in"))
-
-Fig_4_FA_split_abs_rel_general
-
-ggsave(filename = "Fig_4_FA_split_abs_rel_general.pdf", plot = Fig_4_FA_split_abs_rel_general, path = "./plots/", width = 8.5, height = 11, units = "in", dpi = 320)
-##Fig 5---- 
-
-# LA_split_abs_general LA_split_rel_general
-
-LA_split_abs_general <-
-  LA_split_abs_general + 
-  theme(axis.title.x=element_blank()) +
-  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
-
-LA_split_rel_general <-
-  LA_split_rel_general + 
-  theme(axis.title.x=element_text(margin = margin(t = 10))) +
-  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
-
-
-Fig_5_LA_split_abs_rel_general <-
-  ggarrange(
-    LA_split_abs_general,
-    LA_split_rel_general,
-    common.legend = T,
-    legend = "bottom",
-    nrow = 2, 
-    ncol = 1,
-    align = "v"
-  ) +
-  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth =1)) +
-  theme(plot.margin = margin(l=0.25,r=0.25,t= 0.5, b= 0.5,unit = "in"))
-
-Fig_5_LA_split_abs_rel_general
-
-ggsave(filename = "Fig_5_LA_split_abs_rel_general.pdf", plot = Fig_5_LA_split_abs_rel_general, path = "./plots/", width = 8.5, height = 11, units = "in", dpi = 320)
-##Fig 6----
-
-#FA_func_LA_rel
-
-FA_func_LA_rel <-
-  FA_func_LA_rel + 
-  theme(axis.title.x=element_text(margin = margin(t = 10))) +
-  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5))) +
-  theme(legend.position = "bottom")
-
-Fig_6_FA_func_LA_rel <-
-  ggarrange(
-    FA_func_LA_rel,
-    nrow = 1,
-    ncol = 1
-  ) +
-  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth =1)) +
-  theme(plot.margin = margin(l=0.25,r=0.25,t= 0.5, b= 0.5,unit = "in"))
-
-Fig_6_FA_func_LA_rel
-
-ggsave(filename = "Fig_6_FA_func_LA_rel.pdf", plot = Fig_6_FA_func_LA_rel, path = "./plots/", width = 8.5, height = 6.65, units = "in", dpi = 320)
-
-
-##fig 7 ----
-# auth_FA_split_abs auth_FA_split_rel
-
-auth_FA_split_abs <-
-  auth_FA_split_abs + 
-  theme(axis.title.x=element_blank()) +
-  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
-
-auth_FA_split_rel <-
-  auth_FA_split_rel + 
-  theme(axis.title.x=element_text(margin = margin(t = 10))) +
-  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
-
-
-Fig_7_auth_FA_split_abs_rel <-
-  ggarrange(
-    auth_FA_split_abs,
-    auth_FA_split_rel,
-    common.legend = T,
-    legend = "bottom",
-    nrow = 2, 
-    ncol = 1,
-    align = "v"
-  ) +
-  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth =1)) +
-  theme(plot.margin = margin(l=0.25,r=0.25,t= 0.5, b= 0.5,unit = "in"))
-
-Fig_7_auth_FA_split_abs_rel
-
-ggsave(filename = "Fig_7_auth_FA_split_abs_rel.pdf", plot = Fig_7_auth_FA_split_abs_rel, path = "./plots/", width = 8.5, height = 11, units = "in", dpi = 320)
-
-##fig 8 ----
-# auth_LA_split_abs auth_LA_split_rel
-
-auth_LA_split_abs <-
-  auth_LA_split_abs + 
-  theme(axis.title.x=element_blank()) +
-  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
-
-auth_LA_split_rel <-
-  auth_LA_split_rel + 
-  theme(axis.title.x=element_text(margin = margin(t = 10))) +
-  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
-
-
-Fig_8_auth_LA_split_abs_rel <-
-  ggarrange(
-    auth_LA_split_abs,
-    auth_LA_split_rel,
-    common.legend = T,
-    legend = "bottom",
-    nrow = 2, 
-    ncol = 1,
-    align = "v"
-  ) +
-  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth =1)) +
-  theme(plot.margin = margin(l=0.25,r=0.25,t= 0.5, b= 0.5,unit = "in"))
-
-Fig_8_auth_LA_split_abs_rel
-
-ggsave(filename = "Fig_8_auth_LA_split_abs_rel.pdf", plot = Fig_8_auth_LA_split_abs_rel, path = "./plots/", width = 8.5, height = 11, units = "in", dpi = 320)
+#Fig_14_overlap_hist
+basic_combine("Fig_14_overlap_hist", "hist_fa_overlap", "hist_la_overlap")

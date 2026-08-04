@@ -1,248 +1,211 @@
-#first author absolute, gender split, general/gen med-------------
+
+##Fig 2---- 
+
+# FA_split_abs FA_split_rel
+
+FA_split_abs <-
+  FA_split_abs + 
+  theme(axis.title.x=element_blank()) +
+  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
+
+FA_split_rel <-
+  FA_split_rel + 
+  theme(axis.title.x=element_text(margin = margin(t = 10))) +
+  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
+
+
+Fig_2_FA_split_abs_rel <-
+  ggarrange(
+    FA_split_abs,
+    FA_split_rel,
+    common.legend = T,
+    legend = "bottom",
+    nrow = 2, 
+    ncol = 1,
+    align = "v"
+  ) +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth =1)) +
+  theme(plot.margin = margin(l=0.25,r=0.25,t= 0.5, b= 0.5,unit = "in"))
+
+Fig_2_FA_split_abs_rel
+
+ggsave(filename = "Fig_2_FA_split_abs_rel.pdf", plot = Fig_2_FA_split_abs_rel, path = "./plots/", width = 8.5, height = 11, units = "in", dpi = 320)
+
+##Fig 3---- 
+
+# LA_split_abs LA_split_rel
+
+LA_split_abs <-
+  LA_split_abs + 
+  theme(axis.title.x=element_blank()) +
+  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
+
+LA_split_rel <-
+  LA_split_rel + 
+  theme(axis.title.x=element_text(margin = margin(t = 10))) +
+  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
+
+
+Fig_3_LA_split_abs_rel <-
+  ggarrange(
+    LA_split_abs,
+    LA_split_rel,
+    common.legend = T,
+    legend = "bottom",
+    nrow = 2, 
+    ncol = 1,
+    align = "v"
+  ) +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth =1)) +
+  theme(plot.margin = margin(l=0.25,r=0.25,t= 0.5, b= 0.5,unit = "in"))
+
+Fig_3_LA_split_abs_rel
+
+ggsave(filename = "Fig_3_LA_split_abs_rel.pdf", plot = Fig_3_LA_split_abs_rel, path = "./plots/", width = 8.5, height = 11, units = "in", dpi = 320)
+##Fig 4---- 
+
+# FA_split_abs_general FA_split_rel_general
+
 FA_split_abs_general <-
-  fa_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication","First Author Gender")) %>% 
-  ggplot(aes(x = `Year of Publication`, y = `Number of Articles`, shape = `First Author Gender`)) +
-  theme_classic() +
-  stat_smooth(method = "lm", 
-              formula = y ~ x, 
-              geom = "smooth") +
-  geom_point() +
-  ylim(0, NA) +
-  scale_x_continuous(breaks = 2010:2023) +
-  theme(text = element_text(size= 12))
+  FA_split_abs_general + 
+  theme(axis.title.x=element_blank()) +
+  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
 
-ggsave(filename = "FA_split_abs_general.pdf", plot = FA_split_abs_general, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
-# stat_regline_equation(
-#   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
-#   formula = formula
-# )
-
-fa_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication","First Author Gender")) %>% 
-  filter(`First Author Gender` == "Female") %>% 
-  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
-  summary()
-
-fa_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication","First Author Gender")) %>% 
-  filter(`First Author Gender` == "Female") %>% 
-  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
-  confint()
-
-fa_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication","First Author Gender")) %>% 
-  filter(`First Author Gender` == "Male") %>% 
-  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
-  summary()
-
-fa_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication","First Author Gender")) %>% 
-  filter(`First Author Gender` == "Male") %>% 
-  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
-  confint()
-
-
-#first author absolute, sum, general/gen med------------
-FA_sum_abs_general <-
-  fa_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication")) %>% 
-  ggplot(aes(x = `Year of Publication`, y = `Number of Articles`)) +
-  theme_classic() +
-  stat_smooth(method = "lm", 
-              formula = y ~ x, 
-              geom = "smooth") +
-  geom_point(shape = 15) +
-  ylim(0, NA) +
-  scale_x_continuous(breaks = 2010:2023)+
-  theme(text = element_text(size= 12))
-
-ggsave(filename = "FA_sum_abs_general.pdf", plot = FA_sum_abs_general, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
-# stat_regline_equation(
-#   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
-#   formula = formula
-# )
-fa_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication")) %>% 
-  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
-  summary()
-
-fa_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication")) %>% 
-  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
-  confint()
-
-#first author relative, gender split, general/gen med---------------
 FA_split_rel_general <-
-  fa_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication","First Author Gender")) %>% 
-  group_by(`Year of Publication`) %>% 
-  mutate(`Number of Articles` = `Number of Articles`/sum(`Number of Articles`)) %>% 
-  ungroup() %>% 
-  filter(`First Author Gender` == "Female") %>% 
-  ggplot(aes(x = `Year of Publication`, y = `Number of Articles`, shape = `First Author Gender`)) +
-  ylab("Proportion of Articles") +
-  theme_classic() +
-  stat_smooth(method = "lm", 
-              formula = y ~ x, 
-              geom = "smooth") +
-  geom_point() +
-  ylim(0, NA) +
-  scale_x_continuous(breaks = 2010:2023) +
-  scale_shape_manual(values = 17) +
-  theme(text = element_text(size= 12))
+  FA_split_rel_general + 
+  theme(axis.title.x=element_text(margin = margin(t = 10))) +
+  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
 
-ggsave(filename = "FA_split_rel_general.pdf", plot = FA_split_rel_general, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
 
-fa_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication","First Author Gender")) %>% 
-  group_by(`Year of Publication`) %>% 
-  mutate(`Number of Articles` = `Number of Articles`/sum(`Number of Articles`)) %>% 
-  ungroup() %>% 
-  filter(`First Author Gender` == "Female") %>% 
-  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
-  summary()
+Fig_4_FA_split_abs_rel_general <-
+  ggarrange(
+    FA_split_abs_general,
+    FA_split_rel_general,
+    common.legend = T,
+    legend = "bottom",
+    nrow = 2, 
+    ncol = 1,
+    align = "v"
+  ) +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth =1)) +
+  theme(plot.margin = margin(l=0.25,r=0.25,t= 0.5, b= 0.5,unit = "in"))
 
-fa_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication","First Author Gender")) %>% 
-  group_by(`Year of Publication`) %>% 
-  mutate(`Number of Articles` = `Number of Articles`/sum(`Number of Articles`)) %>% 
-  ungroup() %>% 
-  filter(`First Author Gender` == "Female") %>% 
-  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
-  confint()
+Fig_4_FA_split_abs_rel_general
 
-#last author absolute, gender split, general/gen med-------------
+ggsave(filename = "Fig_4_FA_split_abs_rel_general.pdf", plot = Fig_4_FA_split_abs_rel_general, path = "./plots/", width = 8.5, height = 11, units = "in", dpi = 320)
+##Fig 5---- 
+
+# LA_split_abs_general LA_split_rel_general
+
 LA_split_abs_general <-
-  la_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication","Last Author Gender")) %>% 
-  ggplot(aes(x = `Year of Publication`, y = `Number of Articles`, shape = `Last Author Gender`)) +
-  theme_classic() +
-  stat_smooth(method = "lm", 
-              formula = y ~ x, 
-              geom = "smooth") +
-  geom_point() +
-  ylim(0, NA) +
-  scale_x_continuous(breaks = 2010:2023) +
-  theme(text = element_text(size= 12))
+  LA_split_abs_general + 
+  theme(axis.title.x=element_blank()) +
+  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
 
-ggsave(filename = "LA_split_abs_general.pdf", plot = LA_split_abs_general, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
-
-la_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication","Last Author Gender")) %>% 
-  filter(`Last Author Gender` == "Female") %>% 
-  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
-  summary()
-
-la_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication","Last Author Gender")) %>% 
-  filter(`Last Author Gender` == "Female") %>% 
-  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
-  confint()
-
-la_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication","Last Author Gender")) %>% 
-  filter(`Last Author Gender` == "Male") %>% 
-  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
-  summary()
-
-la_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication","Last Author Gender")) %>% 
-  filter(`Last Author Gender` == "Male") %>% 
-  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
-  confint()
-
-#last author absolute, sum, general/gen med-------------
-LA_sum_abs_general <-
-  la_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication")) %>% 
-  ggplot(aes(x = `Year of Publication`, y = `Number of Articles`)) +
-  theme_classic() +
-  stat_smooth(method = "lm", 
-              formula = y ~ x, 
-              geom = "smooth") +
-  geom_point(shape = 15) +
-  ylim(0, NA) +
-  scale_x_continuous(breaks = 2010:2023)+
-  theme(text = element_text(size= 12))
-
-ggsave(filename = "LA_sum_abs_general.pdf", plot = LA_sum_abs_general, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
-
-la_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication")) %>% 
-  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
-  summary()
-
-la_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication")) %>% 
-  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
-  confint()
-
-# stat_regline_equation(
-#   aes(label =  paste(..eq.label.., ..adj.rr.label.., sep = "~~~~")),
-#   formula = formula
-# )
-
-#last author relative, split, general/gen med-----------
 LA_split_rel_general <-
-  la_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication","Last Author Gender")) %>% 
-  group_by(`Year of Publication`) %>% 
-  mutate(`Number of Articles` = `Number of Articles`/sum(`Number of Articles`)) %>% 
-  ungroup() %>% 
-  filter(`Last Author Gender` == "Female") %>% 
-  ggplot(aes(x = `Year of Publication`, y = `Number of Articles`, shape = `Last Author Gender`)) +
-  ylab("Proportion of Articles") +
-  theme_classic() +
-  stat_smooth(method = "lm", 
-              formula = y ~ x, 
-              geom = "smooth") +
-  geom_point() +
-  ylim(0, NA) +
-  scale_x_continuous(breaks = 2010:2023) +
-  scale_shape_manual(values = 17) +
-  theme(text = element_text(size= 12))
-
-ggsave(filename = "LA_split_rel_general.pdf", plot = LA_split_rel_general, path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
-
-la_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication","Last Author Gender")) %>% 
-  group_by(`Year of Publication`) %>% 
-  mutate(`Number of Articles` = `Number of Articles`/sum(`Number of Articles`)) %>% 
-  ungroup() %>% 
-  filter(`Last Author Gender` == "Female") %>% 
-  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
-  summary()
-
-la_sum %>% 
-  filter(`Journal Type` %in% c("gen","med")) %>% 
-  collapse_others(c("Year of Publication","Last Author Gender")) %>% 
-  group_by(`Year of Publication`) %>% 
-  mutate(`Number of Articles` = `Number of Articles`/sum(`Number of Articles`)) %>% 
-  ungroup() %>% 
-  filter(`Last Author Gender` == "Female") %>% 
-  lm(`Number of Articles` ~ `Year of Publication`, data = .) %>% 
-  confint()
+  LA_split_rel_general + 
+  theme(axis.title.x=element_text(margin = margin(t = 10))) +
+  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
 
 
+Fig_5_LA_split_abs_rel_general <-
+  ggarrange(
+    LA_split_abs_general,
+    LA_split_rel_general,
+    common.legend = T,
+    legend = "bottom",
+    nrow = 2, 
+    ncol = 1,
+    align = "v"
+  ) +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth =1)) +
+  theme(plot.margin = margin(l=0.25,r=0.25,t= 0.5, b= 0.5,unit = "in"))
+
+Fig_5_LA_split_abs_rel_general
+
+ggsave(filename = "Fig_5_LA_split_abs_rel_general.pdf", plot = Fig_5_LA_split_abs_rel_general, path = "./plots/", width = 8.5, height = 11, units = "in", dpi = 320)
+##Fig 6----
+
+#FA_func_LA_rel
+
+FA_func_LA_rel <-
+  FA_func_LA_rel + 
+  theme(axis.title.x=element_text(margin = margin(t = 10))) +
+  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5))) +
+  theme(legend.position = "bottom")
+
+Fig_6_FA_func_LA_rel <-
+  ggarrange(
+    FA_func_LA_rel,
+    nrow = 1,
+    ncol = 1
+  ) +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth =1)) +
+  theme(plot.margin = margin(l=0.25,r=0.25,t= 0.5, b= 0.5,unit = "in"))
+
+Fig_6_FA_func_LA_rel
+
+ggsave(filename = "Fig_6_FA_func_LA_rel.pdf", plot = Fig_6_FA_func_LA_rel, path = "./plots/", width = 8.5, height = 6.65, units = "in", dpi = 320)
+
+
+##fig 7 ----
+# auth_FA_split_abs auth_FA_split_rel
+
+auth_FA_split_abs <-
+  auth_FA_split_abs + 
+  theme(axis.title.x=element_blank()) +
+  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
+
+auth_FA_split_rel <-
+  auth_FA_split_rel + 
+  theme(axis.title.x=element_text(margin = margin(t = 10))) +
+  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
+
+
+Fig_7_auth_FA_split_abs_rel <-
+  ggarrange(
+    auth_FA_split_abs,
+    auth_FA_split_rel,
+    common.legend = T,
+    legend = "bottom",
+    nrow = 2, 
+    ncol = 1,
+    align = "v"
+  ) +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth =1)) +
+  theme(plot.margin = margin(l=0.25,r=0.25,t= 0.5, b= 0.5,unit = "in"))
+
+Fig_7_auth_FA_split_abs_rel
+
+ggsave(filename = "Fig_7_auth_FA_split_abs_rel.pdf", plot = Fig_7_auth_FA_split_abs_rel, path = "./plots/", width = 8.5, height = 11, units = "in", dpi = 320)
+
+##fig 8 ----
+# auth_LA_split_abs auth_LA_split_rel
+
+auth_LA_split_abs <-
+  auth_LA_split_abs + 
+  theme(axis.title.x=element_blank()) +
+  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
+
+auth_LA_split_rel <-
+  auth_LA_split_rel + 
+  theme(axis.title.x=element_text(margin = margin(t = 10))) +
+  theme(axis.title.y=element_text(margin = margin(r = 10, l = 5)))
+
+
+Fig_8_auth_LA_split_abs_rel <-
+  ggarrange(
+    auth_LA_split_abs,
+    auth_LA_split_rel,
+    common.legend = T,
+    legend = "bottom",
+    nrow = 2, 
+    ncol = 1,
+    align = "v"
+  ) +
+  theme(panel.border = element_rect(colour = "black", fill=NA, linewidth =1)) +
+  theme(plot.margin = margin(l=0.25,r=0.25,t= 0.5, b= 0.5,unit = "in"))
+
+Fig_8_auth_LA_split_abs_rel
+
+ggsave(filename = "Fig_8_auth_LA_split_abs_rel.pdf", plot = Fig_8_auth_LA_split_abs_rel, path = "./plots/", width = 8.5, height = 11, units = "in", dpi = 320)

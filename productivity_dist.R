@@ -1,98 +1,150 @@
+library("pacman")
+p_load(tidyverse)
+source(file = "util_funcs.R")
 
-#f_fa----
-prod_data_f_fa_yearly <-
-  gendered_paper_data %>% 
-  select(PubDate, fa_female) %>% 
-  group_by(PubDate, fa_female) %>% 
-  summarise(num = n()) %>% 
-  ungroup() %>% 
-  filter(fa_female != 0) %>% 
-  filter(PubDate >= 2010) %>%
-  filter(PubDate <= 2023)
+load(file = "./data/gendered_paper_data")
 
-prod_data_f_fa_all <-
-  gendered_paper_data %>% 
-  filter(PubDate >= 2010) %>%
-  filter(PubDate <= 2023) %>% 
-  select(fa_female) %>% 
-  group_by(fa_female) %>% 
-  summarise(num = n()) %>% 
-  ungroup() %>% 
-  filter(fa_female != 0)
+mode = ""
 
-prod_data_f_fa_yearly %>% 
-  filter(PubDate == 2020) %>% 
-  select(num) %>% 
+percentile = 0.99
+
+#----
+
+fa_table <- 
+  table(gendered_paper_data$fa_abns_id, gendered_paper_data$fa_gender) %>% 
+  as.data.frame() %>% 
+  as_tibble()
+
+colnames(fa_table) <- c("id", "gender", "freq")
+
+#after_stat(ifelse(count >= 2, count, NA))
+
+f_q <- 
+  fa_table %>% 
+  filter(gender == "female") %>% 
+  filter(freq > 0) %>% 
+  dplyr::select(freq) %>% 
   unlist() %>% 
-  hist()
+  quantile(percentile)
 
-prod_data_f_fa_all %>% 
-  select(num) %>% 
+m_q <- 
+  fa_table %>% 
+  filter(gender == "male") %>% 
+  filter(freq > 0) %>% 
+  dplyr::select(freq) %>% 
   unlist() %>% 
-  hist()
-  
+  quantile(percentile)
 
-#m_fa----
-prod_data_m_fa_yearly <-
-  gendered_paper_data %>% 
-  select(PubDate, fa_male) %>% 
-  group_by(PubDate, fa_male) %>% 
-  summarise(num = n()) %>% 
-  ungroup() %>% 
-  filter(fa_male != 0) %>% 
-  filter(PubDate >= 2010) %>%
-  filter(PubDate <= 2023)
+max_q = max(f_q, m_q)
 
-prod_data_m_fa_all <-
-  gendered_paper_data %>% 
-  filter(PubDate >= 2010) %>%
-  filter(PubDate <= 2023) %>% 
-  select(fa_male, FA_LastName, FA_ForeName) %>% 
-  group_by(fa_male) %>% 
-  summarise(num = n()) %>% 
-  ungroup() %>% 
-  filter(fa_male != 0)
+hist_fa_f <-
+  fa_table %>% 
+  filter(gender == "female") %>%
+  filter(freq > 0) %>% 
+  ggplot(aes(x=freq)) +
+  geom_histogram(color="#e9ecef", bins = min(30,round(f_q))) +
+  theme_classic() +
+  ylab("Total Number of First Authorship Credits in 2010-2023") +
+  xlab("Number of Female Authors")+
+  xlim(0, f_q)
+plot_name = "hist_fa_f"
+ggsave(filename = paste0(plot_name,mode, ".pdf"), plot = get(plot_name), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+save(list = plot_name, file = paste0("./data/",plot_name,mode))
 
-prod_data_m_fa_yearly %>% 
-  filter(PubDate == 2020) %>% 
-  select(num) %>% 
+
+hist_fa_m <-
+  fa_table %>% 
+  filter(gender == "male") %>%
+  filter(freq > 0) %>% 
+  ggplot(aes(x=freq)) +
+  geom_histogram(color="#e9ecef", bins = min(30,round(f_q))) +
+  theme_classic() +
+  ylab("Total Number of First Authorship Credits in 2010-2023") +
+  xlab("Number of Male Authors")+
+  xlim(0, m_q)
+plot_name = "hist_fa_m"
+ggsave(filename = paste0(plot_name,mode, ".pdf"), plot = get(plot_name), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+save(list = plot_name, file = paste0("./data/",plot_name,mode))
+
+hist_fa_overlap <-
+  fa_table %>% 
+  filter(freq > 0) %>% 
+  ggplot(aes(x=freq, fill = gender)) +
+  geom_histogram(color="#e9ecef", alpha = 0.5, position = "identity") +
+  theme_classic() +
+  ylab("Total Number of First Authorship Credits in 2010-2023") +
+  xlab("Number of Authors")+
+  xlim(0, max_q)
+plot_name = "hist_fa_overlap"
+ggsave(filename = paste0(plot_name,mode, ".pdf"), plot = get(plot_name), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+save(list = plot_name, file = paste0("./data/",plot_name,mode))
+
+#----
+
+la_table <- 
+  table(gendered_paper_data$la_abns_id, gendered_paper_data$la_gender) %>% 
+  as.data.frame() %>% 
+  as_tibble()
+
+colnames(la_table) <- c("id", "gender", "freq")
+
+f_q <- 
+  la_table %>% 
+  filter(gender == "female") %>% 
+  filter(freq > 0) %>% 
+  dplyr::select(freq) %>% 
   unlist() %>% 
-  hist()
+  quantile(percentile)
 
-prod_data_m_fa_all %>% 
-  select(num) %>% 
+m_q <- 
+  la_table %>% 
+  filter(gender == "male") %>% 
+  filter(freq > 0) %>% 
+  dplyr::select(freq) %>% 
   unlist() %>% 
-  hist()
+  quantile(percentile)
 
-#f_la----
+max_q = max(f_q, m_q)
 
-prod_data_f_la_yearly <-
-  gendered_paper_data %>% 
-  select(PubDate, la_female) %>% 
-  group_by(PubDate, la_female) %>% 
-  summarise(num = n()) %>% 
-  ungroup() %>% 
-  filter(la_female != 0) %>% 
-  filter(PubDate >= 2010) %>%
-  filter(PubDate <= 2023)
+hist_la_f <- 
+  la_table %>% 
+  filter(gender == "female") %>%
+  filter(freq > 0) %>% 
+  ggplot(aes(x=freq)) +
+  geom_histogram(color="#e9ecef", bins = min(30,round(f_q))) +
+  theme_classic() +
+  ylab("Total Number of Last Authorship Credits in 2010-2023") +
+  xlab("Number of Female Authors") +
+  xlim(0, f_q)
+plot_name = "hist_la_f"
+ggsave(filename = paste0(plot_name,mode, ".pdf"), plot = get(plot_name), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+save(list = plot_name, file = paste0("./data/",plot_name,mode))
 
-prod_data_f_la_all <-
-  gendered_paper_data %>% 
-  filter(PubDate >= 2010) %>%
-  filter(PubDate <= 2023) %>% 
-  select(la_female) %>% 
-  group_by(la_female) %>% 
-  summarise(num = n()) %>% 
-  ungroup() %>% 
-  filter(la_female != 0)
 
-prod_data_f_la_yearly %>% 
-  filter(PubDate == 2020) %>% 
-  select(num) %>% 
-  unlist() %>% 
-  hist()
+hist_la_m <-
+  la_table %>% 
+  filter(gender == "male") %>%
+  filter(freq > 0) %>% 
+  ggplot(aes(x=freq)) +
+  geom_histogram(color="#e9ecef", bins = min(30,round(f_q))) +
+  theme_classic() +
+  ylab("Total Number of Last Authorship Credits in 2010-2023") +
+  xlab("Number of Male Authors") +
+  xlim(0, m_q)
+plot_name = "hist_la_m"
+ggsave(filename = paste0(plot_name,mode, ".pdf"), plot = get(plot_name), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+save(list = plot_name, file = paste0("./data/",plot_name,mode))
 
-prod_data_f_la_all %>% 
-  select(num) %>% 
-  unlist() %>% 
-  hist()
+
+hist_la_overlap <-
+  la_table %>% 
+  filter(freq > 0) %>% 
+  ggplot(aes(x=freq, fill = gender)) +
+  geom_histogram(color="#e9ecef", alpha = 0.5, position = "identity") +
+  theme_classic() +
+  ylab("Total Number of Last Authorship Credits in 2010-2023") +
+  xlab("Number of Authors") +
+  xlim(0, max_q)
+plot_name = "hist_la_overlap"
+ggsave(filename = paste0(plot_name,mode, ".pdf"), plot = get(plot_name), path = "./plots/", width = 7.5, height = 4.5, units = "in", dpi = 320)
+save(list = plot_name, file = paste0("./data/",plot_name,mode))
